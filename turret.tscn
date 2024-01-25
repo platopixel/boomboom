@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://q2nd5efn3742"]
+
+[ext_resource type="Texture2D" uid="uid://b250mcr5hksuc" path="res://art/turret.png" id="1_63rgj"]
+[ext_resource type="Script" path="res://turret.gd" id="1_vadcp"]
+
+[node name="Turret" type="Node2D"]
+script = ExtResource("1_vadcp")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_63rgj")

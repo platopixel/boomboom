@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckkbg7gk70oli"]
+
+[ext_resource type="Texture2D" uid="uid://bosgl5bufh4o8" path="res://art/brick.svg" id="1_oa34n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lkal3"]
+radius = 6.08276
+
+[node name="Piece" type="RigidBody2D"]
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0241593, 0.0227042)
+texture = ExtResource("1_oa34n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lkal3")
