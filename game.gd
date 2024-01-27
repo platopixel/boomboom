@@ -1,7 +1,7 @@
 extends Node2D
 
 var NUM_BRICKS = 20
-var NUM_PIECES = 4
+var NUM_PIECES = 10
 
 var missile_scene = preload("res://missile.tscn")
 var turret = preload("res://turret.tscn")
@@ -33,7 +33,7 @@ func create_pieces(position):
 		instance.call_deferred("set_global_position", position)
 		# Apply explosion impulse
 		var random_direction = Vector2(randf() * 2.0 - 1.0, randf() * 2.0 - 1.0).normalized()
-		var impulse_strength = 500  # Adjust the strength as needed
+		var impulse_strength = 950  # Adjust the strength as needed
 		var impulse = random_direction * impulse_strength
 		instance.apply_central_impulse(impulse)
 		# add scene

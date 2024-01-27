@@ -8,7 +8,13 @@ script/source = "extends Area2D
 signal hit
 
 func _on_area_entered(area):
+	print('hit')
 	emit_signal(\"hit\", area.global_position)
+	self.call_deferred(\"queue_free\")
+
+
+func _on_body_entered(body):
+	emit_signal(\"hit\", body.global_position)
 	self.call_deferred(\"queue_free\")
 "
 
@@ -16,6 +22,7 @@ func _on_area_entered(area):
 radius = 29.1548
 
 [node name="Brick" type="Area2D"]
+scale = Vector2(0.5, 0.5)
 script = SubResource("GDScript_defx2")
 metadata/_edit_group_ = true
 
@@ -27,3 +34,4 @@ texture = ExtResource("1_uaaua")
 shape = SubResource("CircleShape2D_ppq0r")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
