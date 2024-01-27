@@ -3,34 +3,32 @@
 [ext_resource type="Texture2D" uid="uid://bosgl5bufh4o8" path="res://art/brick.svg" id="1_uaaua"]
 
 [sub_resource type="GDScript" id="GDScript_defx2"]
-script/source = "extends RigidBody2D
+script/source = "extends Area2D
 
-@export var velocity = Vector2.ZERO
+var piece = preload(\"res://piece.tscn\")
+var NUM_PIECES = 4
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
+func _on_area_entered(area):
+	create_pieces()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-func _physics_process(delta):
-	var collision_info = move_and_collide(velocity * delta)
-	if collision_info:
-		velocity = velocity.bounce(collision_info.get_normal())
-
-func _on_body_entered(body):
-	print('hitzorz!')
-	print(body)
+func create_pieces():
+	for i in range(NUM_PIECES):
+		var instance = piece.instantiate()
+		# Must use call_deferred here otherwise the instance position will not be set correctly
+		instance.call_deferred(\"set_global_position\", self.global_position)
+		# Apply explosion impulse
+		var random_direction = Vector2(randf() * 2.0 - 1.0, randf() * 2.0 - 1.0).normalized()
+		var impulse_strength = 500  # Adjust the strength as needed
+		var impulse = random_direction * impulse_strength
+		instance.apply_central_impulse(impulse)
+		# add scene
+		add_child(instance)
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ppq0r"]
 radius = 29.1548
 
-[node name="Brick" type="RigidBody2D"]
-collision_mask = 0
-gravity_scale = 0.0
+[node name="Brick" type="Area2D"]
 script = SubResource("GDScript_defx2")
 metadata/_edit_group_ = true
 
@@ -41,4 +39,4 @@ texture = ExtResource("1_uaaua")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ppq0r")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
