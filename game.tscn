@@ -1,9 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://cm8jbdk7m22w2"]
+[gd_scene load_steps=7 format=3 uid="uid://cm8jbdk7m22w2"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_b1os8"]
 [ext_resource type="PackedScene" uid="uid://q2nd5efn3742" path="res://turret.tscn" id="2_csacs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bh2td"]
+size = Vector2(720, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpjij"]
+size = Vector2(720, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v4q6i"]
+size = Vector2(16, 1288)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdw7x"]
+size = Vector2(16, 1296)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_b1os8")
 
 [node name="Turret" parent="." instance=ExtResource("2_csacs")]
+
+[node name="TopBarrier" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopBarrier"]
+position = Vector2(360, 0)
+shape = SubResource("RectangleShape2D_bh2td")
+
+[node name="BottomBarrier" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBarrier"]
+position = Vector2(360, 1280)
+shape = SubResource("RectangleShape2D_mpjij")
+
+[node name="LeftBarrier" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBarrier"]
+position = Vector2(0, 636)
+shape = SubResource("RectangleShape2D_v4q6i")
+
+[node name="RightBarrier" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBarrier"]
+position = Vector2(720, 640)
+shape = SubResource("RectangleShape2D_gdw7x")

@@ -1,7 +1,7 @@
 extends Node2D
 
 var NUM_BRICKS = 20
-var NUM_PIECES = 10
+var NUM_PIECES = 3
 
 var missile_scene = preload("res://missile.tscn")
 var turret = preload("res://turret.tscn")
@@ -20,8 +20,8 @@ func generate_bricks(num_bricks):
 		var instance = brick.instantiate()
 		instance.connect("hit", _on_brick_hit)
 		var random_position = Vector2(
-			randi_range(0, get_viewport_rect().size.x),
-			randi_range(0, get_viewport_rect().size.y)
+			randi_range(20, get_viewport_rect().size.x - 20),
+			randi_range(50, get_viewport_rect().size.y - 50)
 		)
 		instance.global_position = random_position
 		add_child(instance)
