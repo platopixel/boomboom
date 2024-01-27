@@ -5,24 +5,11 @@
 [sub_resource type="GDScript" id="GDScript_defx2"]
 script/source = "extends Area2D
 
-var piece = preload(\"res://piece.tscn\")
-var NUM_PIECES = 4
+signal hit
 
 func _on_area_entered(area):
-	create_pieces()
-
-func create_pieces():
-	for i in range(NUM_PIECES):
-		var instance = piece.instantiate()
-		# Must use call_deferred here otherwise the instance position will not be set correctly
-		instance.call_deferred(\"set_global_position\", self.global_position)
-		# Apply explosion impulse
-		var random_direction = Vector2(randf() * 2.0 - 1.0, randf() * 2.0 - 1.0).normalized()
-		var impulse_strength = 500  # Adjust the strength as needed
-		var impulse = random_direction * impulse_strength
-		instance.apply_central_impulse(impulse)
-		# add scene
-		add_child(instance)
+	emit_signal(\"hit\", area.global_position)
+	self.call_deferred(\"queue_free\")
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ppq0r"]

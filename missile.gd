@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var speed = 350
+@export var speed = 700
 
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
@@ -16,4 +16,4 @@ func _physics_process(delta):
 	position += velocity * delta
 
 func _on_area_entered(area):
-	print('missile entered')
+	self.queue_free()
