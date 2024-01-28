@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ckkbg7gk70oli"]
 
-[ext_resource type="Texture2D" uid="uid://bosgl5bufh4o8" path="res://art/brick.svg" id="1_oa34n"]
+[ext_resource type="Texture2D" uid="uid://bvm43nnuljm6u" path="res://art/piece.png" id="1_26os8"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i4qta"]
 bounce = 0.42
@@ -28,11 +28,10 @@ physics_material_override = SubResource("PhysicsMaterial_i4qta")
 script = SubResource("GDScript_6b2e7")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.0241593, 0.0227042)
-texture = ExtResource("1_oa34n")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lkal3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_26os8")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

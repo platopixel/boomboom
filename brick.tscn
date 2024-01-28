@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cq1tglkkatsqo"]
 
-[ext_resource type="Texture2D" uid="uid://bosgl5bufh4o8" path="res://art/brick.svg" id="1_uaaua"]
+[ext_resource type="Texture2D" uid="uid://beva6uhjfnb38" path="res://art/brick.png" id="1_1cufd"]
 
 [sub_resource type="GDScript" id="GDScript_defx2"]
 script/source = "extends Area2D
@@ -18,20 +18,20 @@ func _on_body_entered(body):
 	self.call_deferred(\"queue_free\")
 "
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ppq0r"]
-radius = 29.1548
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
+size = Vector2(100, 92)
 
 [node name="Brick" type="Area2D"]
 scale = Vector2(0.5, 0.5)
+collision_layer = 0
 script = SubResource("GDScript_defx2")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.110484, 0.102471)
-texture = ExtResource("1_uaaua")
+texture = ExtResource("1_1cufd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_ppq0r")
+shape = SubResource("RectangleShape2D_35jan")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
