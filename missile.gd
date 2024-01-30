@@ -6,6 +6,5 @@ extends Area2D
 var velocity = INITIAL_SPEED
 var acceleration = Vector2.ZERO
 
-
 func _on_area_entered(area):
 	self.queue_free()

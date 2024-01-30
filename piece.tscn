@@ -29,9 +29,11 @@ script = SubResource("GDScript_6b2e7")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_lkal3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_26os8")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

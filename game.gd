@@ -10,7 +10,11 @@ var piece = preload("res://piece.tscn")
 
 # This is the main game scene where the gameplay takes place
 func _ready():
+	gameStart()
+
+func gameStart():
 	generate_bricks(NUM_BRICKS)
+	$HUD.hide()
 
 func _on_brick_hit(position):
 	create_pieces(position)
@@ -21,7 +25,7 @@ func generate_bricks(num_bricks):
 		instance.connect("hit", _on_brick_hit)
 		var random_position = Vector2(
 			randi_range(20, get_viewport_rect().size.x - 20),
-			randi_range(50, get_viewport_rect().size.y - 50)
+			randi_range(100, get_viewport_rect().size.y - 50)
 		)
 		instance.global_position = random_position
 		add_child(instance)
@@ -52,7 +56,6 @@ func _input(event):
 		send_along_path(instance, event.global_position)  # End position
 
 func send_along_path(instance, destination):
-	# look_at aint workin right
 	instance.look_at(destination)
 	instance.rotation += PI / 2
 	

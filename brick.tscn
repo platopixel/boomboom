@@ -1,37 +1,76 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq1tglkkatsqo"]
+[gd_scene load_steps=8 format=3 uid="uid://cq1tglkkatsqo"]
 
-[ext_resource type="Texture2D" uid="uid://beva6uhjfnb38" path="res://art/brick.png" id="1_1cufd"]
+[ext_resource type="Texture2D" uid="uid://bud5f1bhbqfxf" path="res://art/sprite_bricks0.png" id="2_5r2n3"]
+[ext_resource type="Texture2D" uid="uid://dy07u13ysx3bt" path="res://art/sprite_bricks1.png" id="3_r3ecw"]
+[ext_resource type="Texture2D" uid="uid://cwjeaok6hfcmf" path="res://art/sprite_bricks2.png" id="4_cvncw"]
+[ext_resource type="Texture2D" uid="uid://cupmkmvm8mr1y" path="res://art/sprite_bricks3.png" id="5_jop82"]
 
 [sub_resource type="GDScript" id="GDScript_defx2"]
 script/source = "extends Area2D
 
 signal hit
 
+var area_hit
+
+func _ready():
+	$AnimatedSprite2D.connect(\"animation_finished\", self._on_AnimatedSprite2D_animation_finished)
+
+func _on_AnimatedSprite2D_animation_finished():
+	if area_hit:
+		emit_signal(\"hit\", area_hit)
+	self.call_deferred(\"queue_free\")
+
+# Hit by missile
 func _on_area_entered(area):
-	print('hit')
-	emit_signal(\"hit\", area.global_position)
-	self.call_deferred(\"queue_free\")
+	area_hit = area.global_position
+	var animated_sprite = $AnimatedSprite2D
+	animated_sprite.play(\"flash_colors\")
 
-
+# Hit by piece
 func _on_body_entered(body):
-	emit_signal(\"hit\", body.global_position)
-	self.call_deferred(\"queue_free\")
+	if body is RigidBody2D:
+		var bounce_direction = Vector2(0, -1) # Change this based on your needs
+		var bounce_strength = 500 # Adjust the strength as needed
+		body.apply_central_impulse(bounce_direction * bounce_strength)
+	area_hit = body.global_position
+	var animated_sprite = $AnimatedSprite2D
+	animated_sprite.play(\"flash_colors\")
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
 size = Vector2(100, 92)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_d3n2a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5r2n3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_r3ecw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cvncw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_jop82")
+}],
+"loop": false,
+"name": &"flash_colors",
+"speed": 4.0
+}]
+
 [node name="Brick" type="Area2D"]
-scale = Vector2(0.5, 0.5)
 collision_layer = 0
 script = SubResource("GDScript_defx2")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_1cufd")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_35jan")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_d3n2a")
+animation = &"flash_colors"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
