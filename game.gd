@@ -1,7 +1,7 @@
 extends Node2D
 
-var NUM_BRICKS = 20
-var NUM_PIECES = 5
+var NUM_BRICKS = 15
+var NUM_PIECES = 2
 
 var missile_scene = preload("res://missile.tscn")
 var turret = preload("res://turret.tscn")
