@@ -4,7 +4,6 @@ var NUM_BRICKS = 15
 var NUM_PIECES = 2
 
 var missile_scene = preload("res://missile.tscn")
-var turret = preload("res://turret.tscn")
 var brick = preload("res://brick.tscn")
 var piece = preload("res://piece.tscn")
 
@@ -43,10 +42,6 @@ func create_pieces(position):
 		# add scene
 		add_child(instance)
 
-func instantiate_turret():
-	var instance = turret.instantiate()
-	add_child(instance)
-
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		# Mouse clicked - instantiate and send scene
@@ -60,6 +55,7 @@ func send_along_path(instance, destination):
 	instance.rotation += PI / 2
 	
 	var tween = create_tween()
-	tween.tween_property(instance, "global_position", destination, 1.0).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+	# tween.tween_property(instance, "global_position", destination, 1).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	tween.tween_property(instance, "global_position", destination, 1)
 	tween.tween_callback(instance.queue_free)
 	# You can connect signals to remove the instance or stop the tween as needed
