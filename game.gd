@@ -48,14 +48,11 @@ func _input(event):
 		var instance = missile_scene.instantiate()
 		add_child(instance)
 		instance.global_position = Vector2(get_viewport_rect().size.x / 2, 80)
-		send_along_path(instance, event.global_position)  # End position
+		send_along_path(instance, event.global_position)
 
 func send_along_path(instance, destination):
 	instance.look_at(destination)
 	instance.rotation += PI / 2
-	
-	var tween = create_tween()
-	# tween.tween_property(instance, "global_position", destination, 1).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
-	tween.tween_property(instance, "global_position", destination, 1)
-	tween.tween_callback(instance.queue_free)
-	# You can connect signals to remove the instance or stop the tween as needed
+	# Calculate direction vector from the RigidBody2D to the target position
+	var direction = (destination - instance.global_position).normalized()
+	instance.fire_missile(direction)

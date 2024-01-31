@@ -1,10 +1,9 @@
-extends Area2D
+extends RigidBody2D
 
-@export var speed = 700
-@export var INITIAL_SPEED = 100
+@export var impulse_strength = 500
 
-var velocity = INITIAL_SPEED
-var acceleration = Vector2.ZERO
+func _on_body_entered(body):
+	print('body entered')
 
-func _on_area_entered(area):
-	self.queue_free()
+func fire_missile(direction):
+	self.apply_central_impulse(direction * impulse_strength)
