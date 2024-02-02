@@ -50,7 +50,7 @@ func generate_bricks(num_bricks):
 		instance.connect("hit", _on_brick_hit)
 		var random_position = Vector2(
 			randi_range(20, get_viewport_rect().size.x - 20),
-			randi_range(100, get_viewport_rect().size.y - 50)
+			randi_range(200, get_viewport_rect().size.y - 100)
 		)
 		instance.global_position = random_position
 		add_child(instance)
