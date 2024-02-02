@@ -59,3 +59,5 @@ texture = ExtResource("3_v46ps")
 stretch_mode = 1
 
 [node name="HUD" parent="." instance=ExtResource("5_q1fsr")]
+
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]

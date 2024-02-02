@@ -7,16 +7,42 @@ var missile_scene = preload("res://missile.tscn")
 var brick = preload("res://brick.tscn")
 var piece = preload("res://piece.tscn")
 
+var is_playing = false
+
 # This is the main game scene where the gameplay takes place
 func _ready():
-	gameStart()
+	$Turret.hide()
+	$HUD.show()
 
-func gameStart():
-	generate_bricks(NUM_BRICKS)
+func game_start():
+	reset_game_state()
 	$HUD.hide()
+	generate_bricks(NUM_BRICKS)
+	$Turret.show()
+	is_playing = true
+
+func game_over():
+	is_playing = false
+	$HUD.show_game_over()
+	$HUD.show()
+
+func reset_game_state():
+	# clear old pieces and bricks
+	var bricks = get_tree().get_nodes_in_group("brick")
+	var pieces = get_tree().get_nodes_in_group("piece")
+	var missiles = get_tree().get_nodes_in_group("missile")
+	for brick in bricks:
+		brick.queue_free()
+	for piece in pieces:
+		piece.queue_free()
+	for missile in missiles:
+		missile.queue_free()
 
 func _on_brick_hit(position):
 	create_pieces(position)
+	# this is getting called before the brick removes itself so set this to 1 instead of 0
+	if (get_tree().get_nodes_in_group("brick").size() == 1):
+		game_over()
 
 func generate_bricks(num_bricks):
 	for i in range(num_bricks):
@@ -43,7 +69,7 @@ func create_pieces(position):
 		add_child(instance)
 
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_playing:
 		# Mouse clicked - instantiate and send scene
 		var instance = missile_scene.instantiate()
 		add_child(instance)
@@ -56,3 +82,7 @@ func send_along_path(instance, destination):
 	# Calculate direction vector from the RigidBody2D to the target position
 	var direction = (destination - instance.global_position).normalized()
 	instance.fire_missile(direction)
+
+
+func _on_hud_start_game():
+	game_start()

@@ -12,6 +12,7 @@ script/source = "extends RigidBody2D
 signal hit
 
 func _ready():
+	add_to_group(\"piece\")
 	# play animation
 	$Sprite2D/AnimationPlayer.play(\"flash\")
 

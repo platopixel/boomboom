@@ -12,6 +12,7 @@ radius = 4.0
 height = 32.0
 
 [node name="Missile" type="RigidBody2D"]
+mass = 0.69
 script = ExtResource("1_woeqj")
 metadata/_edit_group_ = true
 
