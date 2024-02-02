@@ -24,7 +24,6 @@ func _on_AnimatedSprite2D_animation_finished():
 # Hit by piece
 func _on_body_entered(body):
 	if body.is_in_group(\"missile\"):
-		body.linear_velocity = Vector2.ZERO
 		body.sleeping = true
 	elif body is RigidBody2D:
 		print(\"rigidbody\")
