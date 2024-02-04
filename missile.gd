@@ -12,6 +12,11 @@ func _on_AnimatedSprite2D_animation_finished():
 	queue_free()
 
 func _on_flash_animation_finished(animation_name):
+	# turn off physics detection for the explosion
+	self.linear_velocity = Vector2.ZERO
+	self.collision_layer = 0
+	self.collision_mask = 0
+	self.gravity_scale = 0
 	$Sprite2D.hide()
 	$AnimatedSprite2D.show()
 	$AnimatedSprite2D.play("explosion")
@@ -20,8 +25,4 @@ func fire_missile(direction):
 	self.apply_central_impulse(direction * impulse_strength)
 
 func detonate():
-	# turn off physics detection
-	self.collision_layer = 0
-	self.collision_mask = 0
-	self.gravity_scale = 0
 	$Sprite2D/AnimationPlayer.play("flash")

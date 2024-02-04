@@ -11,9 +11,16 @@ script/source = "extends RigidBody2D
 
 signal hit
 
+# Generate a random speed factor, for example, between 0.5 and 2
+var MIN_ANIMATION_DURATION = 0.5
+var MAX_ANIMATION_DURATION = 2.0
+
+
 func _ready():
 	add_to_group(\"piece\")
 	# play animation
+	var random_animation_duration = randf_range(MIN_ANIMATION_DURATION, MAX_ANIMATION_DURATION)
+	$Sprite2D/AnimationPlayer.speed_scale = random_animation_duration
 	$Sprite2D/AnimationPlayer.play(\"flash\")
 
 func _on_body_entered(body):
