@@ -38,4 +38,12 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 29
 text = "Start Game"
 
+[node name="PointsLabel" type="Label" parent="."]
+offset_left = 64.0
+offset_right = 712.0
+offset_bottom = 67.0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Points: 0"
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

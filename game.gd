@@ -8,15 +8,15 @@ var brick = preload("res://brick.tscn")
 var piece = preload("res://piece.tscn")
 
 var is_playing = false
+var points = 0
 
 # This is the main game scene where the gameplay takes place
 func _ready():
 	$Turret.hide()
-	$HUD.show()
 
 func game_start():
 	reset_game_state()
-	$HUD.hide()
+	# $HUD.hide()
 	generate_bricks(NUM_BRICKS)
 	$Turret.show()
 	is_playing = true
@@ -24,9 +24,9 @@ func game_start():
 func game_over():
 	is_playing = false
 	$HUD.show_game_over()
-	$HUD.show()
 
 func reset_game_state():
+	points = 0
 	# clear old pieces and bricks
 	var bricks = get_tree().get_nodes_in_group("brick")
 	var pieces = get_tree().get_nodes_in_group("piece")
