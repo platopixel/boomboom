@@ -4,8 +4,8 @@ var NUM_BRICKS = 15
 var NUM_PIECES = 7
 
 var missile_scene = preload("res://missile.tscn")
-var brick = preload("res://brick.tscn")
-var piece = preload("res://piece.tscn")
+var brick_scene = preload("res://brick.tscn")
+var piece_scene = preload("res://piece.tscn")
 
 var is_playing = false
 var points = 0
@@ -38,16 +38,24 @@ func reset_game_state():
 	for missile in missiles:
 		missile.queue_free()
 
-func _on_brick_hit(position):
+func _on_brick_detonate(position):
 	create_pieces(position)
 	# this is getting called before the brick removes itself so set this to 1 instead of 0
 	if (get_tree().get_nodes_in_group("brick").size() == 1):
 		game_over()
 
+func add_points():
+	points += 1
+	$HUD/PointsLabel.text = "Points: " + str(points)
+
+func _on_brick_hit(brick):
+	add_points()
+
 func generate_bricks(num_bricks):
 	for i in range(num_bricks):
-		var instance = brick.instantiate()
+		var instance = brick_scene.instantiate()
 		instance.connect("hit", _on_brick_hit)
+		instance.connect("detonate", _on_brick_detonate)
 		var random_position = Vector2(
 			randi_range(20, get_viewport_rect().size.x - 20),
 			randi_range(200, get_viewport_rect().size.y - 100)
@@ -57,7 +65,7 @@ func generate_bricks(num_bricks):
 
 func create_pieces(position):
 	for i in range(NUM_PIECES):
-		var instance = piece.instantiate()
+		var instance = piece_scene.instantiate()
 		# Must use call_deferred here otherwise the instance position will not be set correctly
 		instance.call_deferred("set_global_position", position)
 		# Apply explosion impulse

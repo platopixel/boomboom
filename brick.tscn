@@ -8,18 +8,39 @@
 [sub_resource type="GDScript" id="GDScript_defx2"]
 script/source = "extends Area2D
 
+signal detonate
 signal hit
-signal missile_hit
 
 var area_hit
+
+# Parameters for the shake effect
+# var shake_intensity = Vector2(-10, -10)
+var shake_intensity = 3
+var shake_duration = 0.075
+var shake_timer = 0
+var is_bouncing = false
+var initial_position
+var hit_direction
 
 func _ready():
 	add_to_group(\"brick\")
 	$AnimatedSprite2D.connect(\"animation_finished\", self._on_AnimatedSprite2D_animation_finished)
 
+func _process(delta):
+	if shake_timer > 0:
+		shake_timer -= delta
+		# Randomly offset the Area2D's position
+		var bounce = hit_direction * shake_intensity
+		# position = position.lerp(bounce, delta)
+		position = position + Vector2(randf_range(-shake_intensity, shake_intensity), randf_range(-shake_intensity, shake_intensity))
+		if shake_timer <= 0:
+			# reset the position after shaking
+			position = initial_position
+
+
 func _on_AnimatedSprite2D_animation_finished():
 	if area_hit:
-		emit_signal(\"hit\", area_hit)
+		emit_signal(\"detonate\", area_hit)
 	queue_free()
 
 # Hit by piece
@@ -34,7 +55,16 @@ func _on_body_entered(body):
 		var bounce_direction = Vector2(0, -1) # Change this based on your needs
 		var bounce_strength = 500 # Adjust the strength as needed
 		body.apply_central_impulse(bounce_direction * bounce_strength)
+		emit_signal(\"hit\", self)
+		# Bounce the brick
+		var direction = position - body.global_position
+		direction = direction.normalized()
+		shake(direction)
 
+func shake(direction: Vector2):
+	hit_direction = direction
+	initial_position = position
+	shake_timer = shake_duration
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
