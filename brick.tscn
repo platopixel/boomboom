@@ -26,13 +26,15 @@ func _on_AnimatedSprite2D_animation_finished():
 func _on_body_entered(body):
 	if body.is_in_group(\"missile\"):
 		body.sleeping = true
+		body.detonate()
+		area_hit = body.global_position
+		var animated_sprite = $AnimatedSprite2D
+		animated_sprite.play(\"flash_colors\")
 	elif body is RigidBody2D:
 		var bounce_direction = Vector2(0, -1) # Change this based on your needs
 		var bounce_strength = 500 # Adjust the strength as needed
 		body.apply_central_impulse(bounce_direction * bounce_strength)
-	area_hit = body.global_position
-	var animated_sprite = $AnimatedSprite2D
-	animated_sprite.play(\"flash_colors\")
+
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]

@@ -1,15 +1,92 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpueltdbc6bcx"]
+[gd_scene load_steps=16 format=3 uid="uid://bpueltdbc6bcx"]
 
 [ext_resource type="Texture2D" uid="uid://b3wr5gofakov0" path="res://art/missile.png" id="1_woc2f"]
 [ext_resource type="Script" path="res://missile.gd" id="1_woeqj"]
 [ext_resource type="Shader" path="res://missile.gdshader" id="2_t3nd3"]
+[ext_resource type="Texture2D" uid="uid://caqeqrmbf6mq8" path="res://art/sprite_explosion0.png" id="4_3iq6o"]
+[ext_resource type="Texture2D" uid="uid://b5ewjgpexojjc" path="res://art/sprite_explosion1.png" id="5_6p2wg"]
+[ext_resource type="Texture2D" uid="uid://qjarvsttie8o" path="res://art/sprite_explosion2.png" id="6_tq4nw"]
+[ext_resource type="Texture2D" uid="uid://dqhfqj1b5q8m8" path="res://art/sprite_explosion3.png" id="7_5y66x"]
+[ext_resource type="Texture2D" uid="uid://b5ce7yak7tkxr" path="res://art/sprite_explosion4.png" id="8_2ffdt"]
+[ext_resource type="Texture2D" uid="uid://5s8ftg0eb5sw" path="res://art/sprite_explosion5.png" id="9_7hc68"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8affd"]
+resource_local_to_scene = true
 shader = ExtResource("2_t3nd3")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/flashState = 0.5
+
+[sub_resource type="Animation" id="Animation_lxcn4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+
+[sub_resource type="Animation" id="Animation_t8qxn"]
+resource_name = "flash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1qyeh"]
+_data = {
+"RESET": SubResource("Animation_lxcn4"),
+"flash": SubResource("Animation_t8qxn")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tvd37"]
 radius = 4.0
 height = 32.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q50tl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3iq6o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6p2wg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tq4nw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5y66x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_2ffdt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_7hc68")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tq4nw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_3iq6o")
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 40.0
+}]
 
 [node name="Missile" type="RigidBody2D"]
 mass = 0.69
@@ -21,7 +98,15 @@ material = SubResource("ShaderMaterial_8affd")
 rotation = 3.14159
 texture = ExtResource("1_woc2f")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_1qyeh")
+}
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_tvd37")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2.5, 2.5)
+sprite_frames = SubResource("SpriteFrames_q50tl")
+animation = &"explosion"

@@ -27,15 +27,22 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("6_4bgo3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_88xig")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_jx1n8")
 }],
-"loop": true,
+"loop": false,
 "name": &"explosion",
-"speed": 20.0
+"speed": 40.0
 }]
 
 [node name="Explosion" type="Node2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_477b5")
 animation = &"explosion"
-frame_progress = 0.669309
+frame_progress = 0.635707
