@@ -68,7 +68,7 @@ func shake(direction: Vector2):
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
-size = Vector2(20, 17.3333)
+size = Vector2(20.4444, 18.6667)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d3n2a"]
 animations = [{
@@ -91,17 +91,16 @@ animations = [{
 }]
 
 [node name="Brick" type="Area2D"]
+scale = Vector2(3.5, 1.5)
 collision_layer = 0
 script = SubResource("GDScript_defx2")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1.90735e-06)
-scale = Vector2(1.5, 1.5)
+position = Vector2(7.15256e-07, -4.76837e-07)
 shape = SubResource("RectangleShape2D_35jan")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_d3n2a")
 animation = &"flash_colors"
 
