@@ -36,6 +36,8 @@ position = Vector2(360, 0)
 shape = SubResource("RectangleShape2D_bh2td")
 
 [node name="BottomBarrier" type="StaticBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_4xv76")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBarrier"]

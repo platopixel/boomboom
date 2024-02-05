@@ -1,7 +1,7 @@
 extends Node2D
 
 var NUM_BRICKS = 30
-var NUM_PIECES = 5
+var NUM_PIECES = 2
 
 var missile_scene = preload("res://missile.tscn")
 var brick_scene = preload("res://brick.tscn")
@@ -42,7 +42,7 @@ func reset_game_state():
 
 func _on_explosion_hit(body):
 	if body.is_in_group("brick"):
-		_on_brick_explode(body.position)
+		_on_brick_explode(body.position, body.num_hits + 1)
 		body.queue_free()
 
 func _on_missile_detonate(position):
@@ -52,8 +52,8 @@ func _on_missile_detonate(position):
 	explosion.position = position
 	add_child(explosion)
 
-func _on_brick_explode(position):
-	create_pieces(position)
+func _on_brick_explode(position, num_pieces):
+	create_pieces(position, num_pieces)
 	# this is getting called before the brick removes itself so set this to 1 instead of 0
 	if (get_tree().get_nodes_in_group("brick").size() == 1):
 		game_over()
@@ -64,6 +64,7 @@ func add_points():
 
 func _on_brick_hit(brick):
 	var points = points_scene.instantiate()
+	points.value = brick.num_hits
 	points.position = brick.position
 	add_child(points)
 	add_points()
@@ -79,8 +80,8 @@ func generate_bricks(num_bricks):
 		instance.global_position = random_position
 		add_child(instance)
 
-func create_pieces(position: Vector2):
-	for i in range(NUM_PIECES):
+func create_pieces(position: Vector2, num_pieces: int):
+	for i in range(num_pieces):
 		var instance = piece_scene.instantiate()
 		# Must use call_deferred here otherwise the instance position will not be set correctly
 		instance.call_deferred("set_global_position", position)

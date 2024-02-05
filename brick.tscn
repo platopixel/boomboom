@@ -26,6 +26,7 @@ var shake_timer = 0
 var is_bouncing = false
 var initial_position
 var hit_direction
+var num_hits = 0
 
 func _ready():
 	add_to_group(\"brick\")
@@ -50,6 +51,7 @@ func _on_area_2d_body_entered(body):
 		area_hit = body.global_position
 		var animated_sprite = $AnimatedSprite2D
 	elif body.is_in_group(\"piece\"):
+		num_hits += 1
 		# Reset the animation so it flashes every time it's hit
 		$Polygon2D/AnimationPlayer.seek(0, true)
 		$Polygon2D/AnimationPlayer.play(\"brick_flash\")
