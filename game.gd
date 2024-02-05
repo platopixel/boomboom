@@ -46,7 +46,6 @@ func _on_explosion_hit(body):
 
 func _on_missile_detonate(position):
 	# instantiate explosion scene
-	print('detonate')
 	var explosion = explosion_scene.instantiate()
 	explosion.connect("hit_by_explosion", _on_explosion_hit)
 	explosion.position = position
@@ -69,7 +68,6 @@ func generate_bricks(num_bricks):
 	for i in range(num_bricks):
 		var instance = brick_scene.instantiate()
 		instance.connect("hit_by_piece", _on_brick_hit)
-		# instance.connect("detonate", _on_missile_detonate)
 		var random_position = Vector2(
 			randi_range(20, get_viewport_rect().size.x - 20),
 			randi_range(200, get_viewport_rect().size.y - 100)
@@ -88,7 +86,7 @@ func create_pieces(position: Vector2):
 		var impulse = random_direction * impulse_strength
 		instance.apply_central_impulse(impulse)
 		# add scene
-		add_child(instance)
+		call_deferred("add_child", instance)
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_playing:

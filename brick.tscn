@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cq1tglkkatsqo"]
+[gd_scene load_steps=14 format=3 uid="uid://cq1tglkkatsqo"]
 
 [ext_resource type="Texture2D" uid="uid://bud5f1bhbqfxf" path="res://art/sprite_bricks0.png" id="2_5r2n3"]
 [ext_resource type="Texture2D" uid="uid://dy07u13ysx3bt" path="res://art/sprite_bricks1.png" id="3_r3ecw"]
 [ext_resource type="Texture2D" uid="uid://cwjeaok6hfcmf" path="res://art/sprite_bricks2.png" id="4_cvncw"]
+[ext_resource type="Shader" path="res://brick.gdshader" id="5_8jgbb"]
 [ext_resource type="Texture2D" uid="uid://cupmkmvm8mr1y" path="res://art/sprite_bricks3.png" id="5_jop82"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h5s7"]
@@ -41,13 +42,23 @@ func _process(delta):
 			# reset the position after shaking
 			position = initial_position
 
+# Hit callback
+func _on_area_2d_body_entered(body):
+	if body.is_in_group(\"missile\"):
+		body.detonate()
+		area_hit = body.global_position
+		var animated_sprite = $AnimatedSprite2D
+	elif body is RigidBody2D:
+		$Polygon2D/AnimationPlayer.play(\"brick_flash\")
+		emit_signal(\"hit_by_piece\", self)
+
 
 func _on_AnimatedSprite2D_animation_finished():
 	if area_hit:
 		emit_signal(\"detonate\", area_hit)
 	queue_free()
 
-# Hit by piece
+# This was used when the Brick was an Area2D before I updated it to a rigidbody
 func _on_body_entered(body):
 	if body.is_in_group(\"missile\"):
 		body.sleeping = true
@@ -62,16 +73,6 @@ func shake(direction: Vector2):
 	hit_direction = direction
 	initial_position = position
 	shake_timer = shake_duration
-
-
-func _on_area_2d_body_entered(body):
-	if body.is_in_group(\"missile\"):
-		body.detonate()
-		area_hit = body.global_position
-		var animated_sprite = $AnimatedSprite2D
-		# animated_sprite.play(\"flash_colors\")
-	elif body is RigidBody2D:
-		emit_signal(\"hit_by_piece\", self)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
@@ -97,7 +98,49 @@ animations = [{
 "speed": 4.0
 }]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_diq78"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_npv47"]
+resource_local_to_scene = true
+shader = ExtResource("5_8jgbb")
+shader_parameter/flashColor = Color(1, 1, 1, 1)
+shader_parameter/brickColor = Color(1, 0, 1, 1)
+shader_parameter/flashState = 0.0
+
+[sub_resource type="Animation" id="Animation_2dlqx"]
+resource_name = "brick_flash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_fudon"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fy5al"]
+_data = {
+"RESET": SubResource("Animation_fudon"),
+"brick_flash": SubResource("Animation_2dlqx")
+}
 
 [node name="Brick" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_8h5s7")
@@ -117,11 +160,16 @@ sprite_frames = SubResource("SpriteFrames_d3n2a")
 animation = &"flash_colors"
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_npv47")
 position = Vector2(-10.2857, -9)
 scale = Vector2(22.2986, 7.85714)
 color = Color(0.862745, 0, 0.87451, 1)
-texture = SubResource("CanvasTexture_diq78")
 polygon = PackedVector2Array(-0.480491, 2.41818, 1.58242, 2.41818, 1.58242, 1.19209e-07, -0.480491, 1.19209e-07)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Polygon2D"]
+libraries = {
+"": SubResource("AnimationLibrary_fy5al")
+}
 
 [node name="Area2D" type="Area2D" parent="."]
 
