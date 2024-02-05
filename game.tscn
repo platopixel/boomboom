@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cm8jbdk7m22w2"]
+[gd_scene load_steps=12 format=3 uid="uid://cm8jbdk7m22w2"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_b1os8"]
 [ext_resource type="PackedScene" uid="uid://q2nd5efn3742" path="res://turret.tscn" id="2_csacs"]
@@ -8,6 +8,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bh2td"]
 size = Vector2(720, 16)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4xv76"]
+absorbent = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mpjij"]
 size = Vector2(720, 16)
@@ -33,6 +36,7 @@ position = Vector2(360, 0)
 shape = SubResource("RectangleShape2D_bh2td")
 
 [node name="BottomBarrier" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_4xv76")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBarrier"]
 position = Vector2(360, 1280)

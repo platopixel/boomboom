@@ -7,6 +7,7 @@ var missile_scene = preload("res://missile.tscn")
 var brick_scene = preload("res://brick.tscn")
 var piece_scene = preload("res://piece.tscn")
 var explosion_scene = preload("res://explosion.tscn")
+var points_scene = preload("res://animated_points.tscn")
 
 var is_playing = false
 var points = 0
@@ -62,6 +63,9 @@ func add_points():
 	$HUD/PointsLabel.text = "Points: " + str(points)
 
 func _on_brick_hit(brick):
+	var points = points_scene.instantiate()
+	points.position = brick.position
+	add_child(points)
 	add_points()
 
 func generate_bricks(num_bricks):
