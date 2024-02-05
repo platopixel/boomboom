@@ -1,15 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://cq1tglkkatsqo"]
+[gd_scene load_steps=10 format=3 uid="uid://cq1tglkkatsqo"]
 
 [ext_resource type="Texture2D" uid="uid://bud5f1bhbqfxf" path="res://art/sprite_bricks0.png" id="2_5r2n3"]
 [ext_resource type="Texture2D" uid="uid://dy07u13ysx3bt" path="res://art/sprite_bricks1.png" id="3_r3ecw"]
 [ext_resource type="Texture2D" uid="uid://cwjeaok6hfcmf" path="res://art/sprite_bricks2.png" id="4_cvncw"]
 [ext_resource type="Texture2D" uid="uid://cupmkmvm8mr1y" path="res://art/sprite_bricks3.png" id="5_jop82"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h5s7"]
+rough = true
+absorbent = true
+
 [sub_resource type="GDScript" id="GDScript_defx2"]
-script/source = "extends Area2D
+script/source = "extends RigidBody2D
 
 signal detonate
-signal hit
+signal hit_by_piece
 
 var area_hit
 
@@ -52,23 +56,26 @@ func _on_body_entered(body):
 		var animated_sprite = $AnimatedSprite2D
 		animated_sprite.play(\"flash_colors\")
 	elif body is RigidBody2D:
-		var bounce_direction = Vector2(0, -1) # Change this based on your needs
-		var bounce_strength = 500 # Adjust the strength as needed
-		body.apply_central_impulse(bounce_direction * bounce_strength)
-		emit_signal(\"hit\", self)
-		# Bounce the brick
-		var direction = position - body.global_position
-		direction = direction.normalized()
-		shake(direction)
+		emit_signal(\"hit_by_piece\", self)
 
 func shake(direction: Vector2):
 	hit_direction = direction
 	initial_position = position
 	shake_timer = shake_duration
+
+
+func _on_area_2d_body_entered(body):
+	if body.is_in_group(\"missile\"):
+		body.detonate()
+		area_hit = body.global_position
+		var animated_sprite = $AnimatedSprite2D
+		# animated_sprite.play(\"flash_colors\")
+	elif body is RigidBody2D:
+		emit_signal(\"hit_by_piece\", self)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
-size = Vector2(20.4444, 18.6667)
+size = Vector2(48, 21)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d3n2a"]
 animations = [{
@@ -90,18 +97,37 @@ animations = [{
 "speed": 4.0
 }]
 
-[node name="Brick" type="Area2D"]
-scale = Vector2(3.5, 1.5)
-collision_layer = 0
+[sub_resource type="CanvasTexture" id="CanvasTexture_diq78"]
+
+[node name="Brick" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_8h5s7")
+gravity_scale = 0.0
+freeze = true
 script = SubResource("GDScript_defx2")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(7.15256e-07, -4.76837e-07)
+visible = false
+position = Vector2(2, 0.5)
 shape = SubResource("RectangleShape2D_35jan")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = SubResource("SpriteFrames_d3n2a")
 animation = &"flash_colors"
 
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-10.2857, -9)
+scale = Vector2(22.2986, 7.85714)
+color = Color(0.862745, 0, 0.87451, 1)
+texture = SubResource("CanvasTexture_diq78")
+polygon = PackedVector2Array(-0.480491, 2.41818, 1.58242, 2.41818, 1.58242, 1.19209e-07, -0.480491, 1.19209e-07)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(2, 0.5)
+shape = SubResource("RectangleShape2D_35jan")
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

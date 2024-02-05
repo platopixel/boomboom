@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bpueltdbc6bcx"]
+[gd_scene load_steps=17 format=3 uid="uid://bpueltdbc6bcx"]
 
 [ext_resource type="Texture2D" uid="uid://b3wr5gofakov0" path="res://art/missile.png" id="1_woc2f"]
 [ext_resource type="Script" path="res://missile.gd" id="1_woeqj"]
@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://dqhfqj1b5q8m8" path="res://art/sprite_explosion3.png" id="7_5y66x"]
 [ext_resource type="Texture2D" uid="uid://b5ce7yak7tkxr" path="res://art/sprite_explosion4.png" id="8_2ffdt"]
 [ext_resource type="Texture2D" uid="uid://5s8ftg0eb5sw" path="res://art/sprite_explosion5.png" id="9_7hc68"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wvgbp"]
+absorbent = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8affd"]
 resource_local_to_scene = true
@@ -90,6 +93,7 @@ animations = [{
 
 [node name="Missile" type="RigidBody2D"]
 mass = 0.69
+physics_material_override = SubResource("PhysicsMaterial_wvgbp")
 script = ExtResource("1_woeqj")
 metadata/_edit_group_ = true
 

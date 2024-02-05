@@ -1,11 +1,12 @@
 extends Node2D
 
-var NUM_BRICKS = 15
-var NUM_PIECES = 7
+var NUM_BRICKS = 30
+var NUM_PIECES = 5
 
 var missile_scene = preload("res://missile.tscn")
 var brick_scene = preload("res://brick.tscn")
 var piece_scene = preload("res://piece.tscn")
+var explosion_scene = preload("res://explosion.tscn")
 
 var is_playing = false
 var points = 0
@@ -16,7 +17,6 @@ func _ready():
 
 func game_start():
 	reset_game_state()
-	# $HUD.hide()
 	generate_bricks(NUM_BRICKS)
 	$Turret.show()
 	is_playing = true
@@ -38,7 +38,21 @@ func reset_game_state():
 	for missile in missiles:
 		missile.queue_free()
 
-func _on_brick_detonate(position):
+
+func _on_explosion_hit(body):
+	if body.is_in_group("brick"):
+		_on_brick_explode(body.position)
+		body.queue_free()
+
+func _on_missile_detonate(position):
+	# instantiate explosion scene
+	print('detonate')
+	var explosion = explosion_scene.instantiate()
+	explosion.connect("hit_by_explosion", _on_explosion_hit)
+	explosion.position = position
+	add_child(explosion)
+
+func _on_brick_explode(position):
 	create_pieces(position)
 	# this is getting called before the brick removes itself so set this to 1 instead of 0
 	if (get_tree().get_nodes_in_group("brick").size() == 1):
@@ -54,8 +68,8 @@ func _on_brick_hit(brick):
 func generate_bricks(num_bricks):
 	for i in range(num_bricks):
 		var instance = brick_scene.instantiate()
-		instance.connect("hit", _on_brick_hit)
-		instance.connect("detonate", _on_brick_detonate)
+		instance.connect("hit_by_piece", _on_brick_hit)
+		# instance.connect("detonate", _on_missile_detonate)
 		var random_position = Vector2(
 			randi_range(20, get_viewport_rect().size.x - 20),
 			randi_range(200, get_viewport_rect().size.y - 100)
@@ -63,7 +77,7 @@ func generate_bricks(num_bricks):
 		instance.global_position = random_position
 		add_child(instance)
 
-func create_pieces(position):
+func create_pieces(position: Vector2):
 	for i in range(NUM_PIECES):
 		var instance = piece_scene.instantiate()
 		# Must use call_deferred here otherwise the instance position will not be set correctly
@@ -80,6 +94,7 @@ func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_playing:
 		# Mouse clicked - instantiate and send scene
 		var instance = missile_scene.instantiate()
+		instance.connect("detonate_missile", _on_missile_detonate)
 		add_child(instance)
 		instance.global_position = Vector2(get_viewport_rect().size.x / 2, 80)
 		send_along_path(instance, event.global_position)

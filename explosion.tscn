@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://eidry06pxbts"]
+[gd_scene load_steps=10 format=3 uid="uid://eidry06pxbts"]
 
 [ext_resource type="Texture2D" uid="uid://caqeqrmbf6mq8" path="res://art/sprite_explosion0.png" id="1_jx1n8"]
+[ext_resource type="Script" path="res://explosion.gd" id="1_k60ow"]
 [ext_resource type="Texture2D" uid="uid://b5ewjgpexojjc" path="res://art/sprite_explosion1.png" id="2_p0eh2"]
 [ext_resource type="Texture2D" uid="uid://qjarvsttie8o" path="res://art/sprite_explosion2.png" id="3_88xig"]
 [ext_resource type="Texture2D" uid="uid://dqhfqj1b5q8m8" path="res://art/sprite_explosion3.png" id="4_trwk5"]
@@ -39,10 +40,21 @@ animations = [{
 "speed": 40.0
 }]
 
-[node name="Explosion" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2j63w"]
+radius = 88.3629
+
+[node name="Explosion" type="Area2D"]
+script = ExtResource("1_k60ow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_477b5")
 animation = &"explosion"
-frame_progress = 0.635707
+frame = 7
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2j63w")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
