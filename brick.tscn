@@ -48,7 +48,9 @@ func _on_area_2d_body_entered(body):
 		body.detonate()
 		area_hit = body.global_position
 		var animated_sprite = $AnimatedSprite2D
-	elif body is RigidBody2D:
+	elif body.is_in_group(\"piece\"):
+		# Reset the animation so it flashes every time it's hit
+		$Polygon2D/AnimationPlayer.seek(0, true)
 		$Polygon2D/AnimationPlayer.play(\"brick_flash\")
 		emit_signal(\"hit_by_piece\", self)
 
