@@ -1,7 +1,8 @@
 extends Node2D
 
-var NUM_BRICKS = 10
+var NUM_BRICKS = 20
 var NUM_PIECES = 2
+var MAX_PIECES = 100 # starts stuttering around 200 or so I think
 
 var missile_scene = preload("res://missile.tscn")
 var brick_scene = preload("res://brick.tscn")
@@ -69,6 +70,13 @@ func _on_brick_hit(brick):
 	add_child(points)
 	add_points()
 
+func is_overlapping_with_bricks(new_position):
+	var bricks = get_tree().get_nodes_in_group("brick")
+	for brick in bricks:
+		if brick.global_position.distance_to(new_position) < 100:
+			return true
+	return false
+
 func generate_bricks(num_bricks):
 	for i in range(num_bricks):
 		var instance = brick_scene.instantiate()
@@ -77,11 +85,19 @@ func generate_bricks(num_bricks):
 			randi_range(20, get_viewport_rect().size.x - 20),
 			randi_range(200, get_viewport_rect().size.y - 100)
 		)
+		if is_overlapping_with_bricks(random_position):
+			# reroll a new position and check again (recursion?)
+			print("overlapping")
+			random_position = Vector2(
+			randi_range(20, get_viewport_rect().size.x - 20),
+			randi_range(200, get_viewport_rect().size.y - 100)
+		)
 		instance.global_position = random_position
 		add_child(instance)
 
 func create_pieces(position: Vector2, num_pieces: int):
-	for i in range(num_pieces):
+	var count = min(num_pieces, MAX_PIECES)
+	for i in range(count):
 		var instance = piece_scene.instantiate()
 		# Must use call_deferred here otherwise the instance position will not be set correctly
 		instance.call_deferred("set_global_position", position)
