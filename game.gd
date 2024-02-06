@@ -43,6 +43,7 @@ func reset_game_state():
 
 func _on_explosion_hit(body):
 	if body.is_in_group("brick"):
+		$Camera2D.apply_shake()
 		_on_brick_explode(body.position, body.num_hits)
 		body.queue_free()
 
