@@ -4,6 +4,7 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Engine.time_scale = 0.5
 	randomize()
 	new_game()
 

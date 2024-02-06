@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://cq1tglkkatsqo"]
+[gd_scene load_steps=16 format=3 uid="uid://cq1tglkkatsqo"]
 
 [ext_resource type="Texture2D" uid="uid://bud5f1bhbqfxf" path="res://art/sprite_bricks0.png" id="2_5r2n3"]
 [ext_resource type="Texture2D" uid="uid://dy07u13ysx3bt" path="res://art/sprite_bricks1.png" id="3_r3ecw"]
 [ext_resource type="Texture2D" uid="uid://cwjeaok6hfcmf" path="res://art/sprite_bricks2.png" id="4_cvncw"]
 [ext_resource type="Shader" path="res://brick.gdshader" id="5_8jgbb"]
 [ext_resource type="Texture2D" uid="uid://cupmkmvm8mr1y" path="res://art/sprite_bricks3.png" id="5_jop82"]
+[ext_resource type="FontFile" uid="uid://dtxpxqe0wu7o" path="res://fonts/Xolonium-Regular.ttf" id="6_unvki"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h5s7"]
 rough = true
@@ -26,7 +27,7 @@ var shake_timer = 0
 var is_bouncing = false
 var initial_position
 var hit_direction
-var num_hits = 0
+var num_hits = 2
 
 func _ready():
 	add_to_group(\"brick\")
@@ -52,6 +53,7 @@ func _on_area_2d_body_entered(body):
 		var animated_sprite = $AnimatedSprite2D
 	elif body.is_in_group(\"piece\"):
 		num_hits += 1
+		$Label.text = str(num_hits)
 		# Reset the animation so it flashes every time it's hit
 		$Polygon2D/AnimationPlayer.seek(0, true)
 		$Polygon2D/AnimationPlayer.play(\"brick_flash\")
@@ -80,8 +82,8 @@ func shake(direction: Vector2):
 	shake_timer = shake_duration
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_35jan"]
-size = Vector2(48, 21)
+[sub_resource type="CircleShape2D" id="CircleShape2D_67wr3"]
+radius = 29.5
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d3n2a"]
 animations = [{
@@ -110,6 +112,21 @@ shader_parameter/flashColor = Color(1, 1, 1, 1)
 shader_parameter/brickColor = Color(1, 0, 1, 1)
 shader_parameter/flashState = 0.0
 
+[sub_resource type="Animation" id="Animation_fudon"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_2dlqx"]
 resource_name = "brick_flash"
 length = 0.5
@@ -126,38 +143,24 @@ tracks/0/keys = {
 "values": [1.0, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_fudon"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/flashState")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fy5al"]
 _data = {
 "RESET": SubResource("Animation_fudon"),
 "brick_flash": SubResource("Animation_2dlqx")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_a8wji"]
+radius = 29.5
+
 [node name="Brick" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_8h5s7")
 gravity_scale = 0.0
 freeze = true
 script = SubResource("GDScript_defx2")
-metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(2, 0.5)
-shape = SubResource("RectangleShape2D_35jan")
+position = Vector2(18, 30)
+shape = SubResource("CircleShape2D_67wr3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -166,10 +169,9 @@ animation = &"flash_colors"
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 material = SubResource("ShaderMaterial_npv47")
-position = Vector2(-10.2857, -9)
-scale = Vector2(22.2986, 7.85714)
+scale = Vector2(25, 25)
 color = Color(0.862745, 0, 0.87451, 1)
-polygon = PackedVector2Array(-0.480491, 2.41818, 1.58242, 2.41818, 1.58242, 1.19209e-07, -0.480491, 1.19209e-07)
+polygon = PackedVector2Array(-0.32, 1.64, -0.12, 2, 0.16, 2.2, 0.4, 2.3, 0.72, 2.36, 1.1, 2.3, 1.44, 2.08, 1.64, 1.88, 1.8, 1.6, 1.88, 1.28, 1.84, 1, 1.76, 0.72, 1.64, 0.52, 1.52, 0.36, 1.3, 0.2, 1.1, 0.1, 0.76, 0.04, 0.44, 0.08, 0.2, 0.16, -0.04, 0.32, -0.2, 0.52, -0.36, 0.76, -0.44, 1.2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Polygon2D"]
 libraries = {
@@ -179,8 +181,21 @@ libraries = {
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(2, 0.5)
-shape = SubResource("RectangleShape2D_35jan")
+position = Vector2(18, 30)
+shape = SubResource("CircleShape2D_a8wji")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -3.0
+offset_top = 20.0
+offset_right = 37.0
+offset_bottom = 39.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("6_unvki")
+theme_override_font_sizes/font_size = 18
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

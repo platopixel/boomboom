@@ -1,6 +1,6 @@
 extends Node2D
 
-var NUM_BRICKS = 30
+var NUM_BRICKS = 10
 var NUM_PIECES = 2
 
 var missile_scene = preload("res://missile.tscn")
@@ -42,7 +42,7 @@ func reset_game_state():
 
 func _on_explosion_hit(body):
 	if body.is_in_group("brick"):
-		_on_brick_explode(body.position, body.num_hits + 1)
+		_on_brick_explode(body.position, body.num_hits)
 		body.queue_free()
 
 func _on_missile_detonate(position):
