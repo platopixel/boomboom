@@ -12,10 +12,12 @@ var points_scene = preload("res://animated_points.tscn")
 
 var is_playing = false
 var points = 0
+var high_score = 0
 
 # This is the main game scene where the gameplay takes place
 func _ready():
 	$Turret.hide()
+	check_high_score() # get high score on game load
 
 func game_start():
 	reset_game_state()
@@ -23,11 +25,47 @@ func game_start():
 	$Turret.show()
 	is_playing = true
 
+func get_high_score_from_config():
+	var config = ConfigFile.new()
+	# Load data from a file.
+	var err = config.load("res://boomboom.cfg")
+	# If the file didn't load, ignore it.
+	if err != OK:
+		return high_score
+	# Iterate over all sections.
+	for config_item in config.get_sections():
+		# Fetch the data for each section.
+		return config.get_value(config_item, "high_score")
+
+func set_high_score_on_config(new_high_score):
+	var config = ConfigFile.new()
+	# Load data from a file.
+	var err = config.load("res://boomboom.cfg")
+	# If the file didn't load, ignore it.
+	if err != OK:
+		return
+	config.set_value("high_score", "high_score", new_high_score)
+	config.save("res://boomboom.cfg")
+
+func check_high_score():
+	var current_high_score = get_high_score_from_config()
+	if points > current_high_score:
+		high_score = points
+		# save new high score
+		set_high_score_on_config(high_score)
+	else:
+		high_score = current_high_score # set high_score after reading from disk
+	# Update label
+	$HUD.update_high_score(high_score)
+
+
 func game_over():
 	is_playing = false
+	check_high_score()
 	$HUD.show_game_over()
 
 func reset_game_state():
+	add_points(-(points))
 	points = 0
 	# clear old pieces and bricks
 	var bricks = get_tree().get_nodes_in_group("brick")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bd0ukv7s47y18"]
+[gd_scene load_steps=3 format=3 uid="uid://bd0ukv7s47y18"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_bxvd5"]
+[ext_resource type="FontFile" uid="uid://dtxpxqe0wu7o" path="res://fonts/Xolonium-Regular.ttf" id="2_335u5"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_bxvd5")
@@ -39,12 +40,23 @@ theme_override_font_sizes/font_size = 29
 text = "Start Game"
 
 [node name="PointsLabel" type="Label" parent="."]
-offset_left = 64.0
-offset_right = 712.0
-offset_bottom = 67.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -324.0
+offset_top = -67.0
+offset_right = 324.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.980392, 0.992157, 1, 1)
+theme_override_colors/font_outline_color = Color(0.0627451, 0.823529, 0.458824, 1)
 theme_override_font_sizes/font_size = 48
 text = "Points: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ResetButton" type="Button" parent="."]
 offset_left = 568.0
@@ -52,6 +64,15 @@ offset_top = 24.0
 offset_right = 656.0
 offset_bottom = 48.0
 text = "Reset"
+
+[node name="HighScoreLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 186.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("2_335u5")
+theme_override_font_sizes/font_size = 24
+text = "High Score: 0"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="ResetButton" to="." method="_on_reset_button_pressed"]

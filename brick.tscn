@@ -109,7 +109,7 @@ animations = [{
 resource_local_to_scene = true
 shader = ExtResource("5_8jgbb")
 shader_parameter/flashColor = Color(1, 0.501961, 0.643137, 1)
-shader_parameter/brickColor = Color(0, 0.470588, 0.6, 1)
+shader_parameter/brickColor = Color(0.498039, 0.0235294, 0.133333, 1)
 shader_parameter/flashState = 0.0
 
 [sub_resource type="Animation" id="Animation_fudon"]

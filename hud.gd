@@ -24,3 +24,7 @@ func _on_start_button_pressed():
 
 func _on_reset_button_pressed():
 	emit_signal("start_game")
+
+
+func update_high_score(points):
+	$HighScoreLabel.text = "High Score: " + str(points)
