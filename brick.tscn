@@ -1,11 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cq1tglkkatsqo"]
+[gd_scene load_steps=12 format=3 uid="uid://cq1tglkkatsqo"]
 
-[ext_resource type="Texture2D" uid="uid://bud5f1bhbqfxf" path="res://art/sprite_bricks0.png" id="2_5r2n3"]
-[ext_resource type="Texture2D" uid="uid://dy07u13ysx3bt" path="res://art/sprite_bricks1.png" id="3_r3ecw"]
-[ext_resource type="Texture2D" uid="uid://cwjeaok6hfcmf" path="res://art/sprite_bricks2.png" id="4_cvncw"]
 [ext_resource type="Shader" path="res://brick.gdshader" id="5_8jgbb"]
-[ext_resource type="Texture2D" uid="uid://cupmkmvm8mr1y" path="res://art/sprite_bricks3.png" id="5_jop82"]
 [ext_resource type="FontFile" uid="uid://dtxpxqe0wu7o" path="res://fonts/Xolonium-Regular.ttf" id="6_unvki"]
+[ext_resource type="Texture2D" uid="uid://ds53ifs50p0jt" path="res://art/orb.png" id="7_6gfjx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h5s7"]
 rough = true
@@ -30,19 +27,10 @@ var hit_direction
 var num_hits = 2
 
 func _ready():
+	# godot wasn't respecting the initial flashState value so manually set it here
+	$Sprite2D.get_material().set_shader_parameter(\"flashState\", 0)
 	add_to_group(\"brick\")
-	$AnimatedSprite2D.connect(\"animation_finished\", self._on_AnimatedSprite2D_animation_finished)
 
-func _process(delta):
-	if shake_timer > 0:
-		shake_timer -= delta
-		# Randomly offset the Area2D's position
-		var bounce = hit_direction * shake_intensity
-		# position = position.lerp(bounce, delta)
-		position = position + Vector2(randf_range(-shake_intensity, shake_intensity), randf_range(-shake_intensity, shake_intensity))
-		if shake_timer <= 0:
-			# reset the position after shaking
-			position = initial_position
 
 # Hit callback
 func _on_area_2d_body_entered(body):
@@ -50,13 +38,12 @@ func _on_area_2d_body_entered(body):
 		body.sleeping = true
 		body.detonate()
 		area_hit = body.global_position
-		var animated_sprite = $AnimatedSprite2D
 	elif body.is_in_group(\"piece\"):
-		num_hits += 5
+		num_hits += randi_range(1, 5)
 		$Label.text = str(num_hits)
 		# Reset the animation so it flashes every time it's hit
-		$Polygon2D/AnimationPlayer.seek(0, true)
-		$Polygon2D/AnimationPlayer.play(\"brick_flash\")
+		$Sprite2D/AnimationPlayer.seek(0, true)
+		$Sprite2D/AnimationPlayer.play(\"brick_flash\")
 		emit_signal(\"hit_by_piece\", self)
 
 
@@ -82,38 +69,13 @@ func shake(direction: Vector2):
 	shake_timer = shake_duration
 "
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_67wr3"]
-radius = 59.0
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_d3n2a"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_5r2n3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_r3ecw")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_cvncw")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_jop82")
-}],
-"loop": false,
-"name": &"flash_colors",
-"speed": 4.0
-}]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_npv47"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mgyre"]
 resource_local_to_scene = true
 shader = ExtResource("5_8jgbb")
-shader_parameter/flashColor = Color(1, 0.501961, 0.643137, 1)
-shader_parameter/brickColor = Color(0.498039, 0.0235294, 0.133333, 1)
-shader_parameter/flashState = 0.0
+shader_parameter/flashColor = Color(0.980392, 0.992157, 1, 1)
+shader_parameter/flashState = 1.0
 
 [sub_resource type="Animation" id="Animation_fudon"]
-length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -121,10 +83,10 @@ tracks/0/path = NodePath(".:material:shader_parameter/flashState")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0]
+"values": [1.0, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_2dlqx"]
@@ -149,8 +111,11 @@ _data = {
 "brick_flash": SubResource("Animation_2dlqx")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_67wr3"]
+radius = 45.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_a8wji"]
-radius = 59.0
+radius = 45.0
 
 [node name="Brick" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_8h5s7")
@@ -158,27 +123,21 @@ gravity_scale = 0.0
 freeze = true
 script = SubResource("GDScript_defx2")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_mgyre")
+position = Vector2(18, 30)
+scale = Vector2(2.8125, 2.8125)
+texture = ExtResource("7_6gfjx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_fy5al")
+}
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(18, 30)
 shape = SubResource("CircleShape2D_67wr3")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_d3n2a")
-animation = &"flash_colors"
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-material = SubResource("ShaderMaterial_npv47")
-position = Vector2(-19.431, -31.0345)
-scale = Vector2(51.2931, 50.8621)
-color = Color(1, 0.14902, 0.454902, 1)
-polygon = PackedVector2Array(-0.32, 1.64, -0.12, 2, 0.16, 2.2, 0.4, 2.3, 0.72, 2.36, 1.1, 2.3, 1.44, 2.08, 1.64, 1.88, 1.8, 1.6, 1.88, 1.28, 1.84, 1, 1.76, 0.72, 1.64, 0.52, 1.52, 0.36, 1.3, 0.2, 1.1, 0.1, 0.76, 0.04, 0.44, 0.08, 0.2, 0.16, -0.04, 0.32, -0.2, 0.52, -0.36, 0.76, -0.44, 1.2)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Polygon2D"]
-libraries = {
-"": SubResource("AnimationLibrary_fy5al")
-}
 
 [node name="Area2D" type="Area2D" parent="."]
 

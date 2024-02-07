@@ -1,6 +1,6 @@
 extends Node2D
 
-var NUM_BRICKS = 6
+var NUM_BRICKS = 12
 var NUM_PIECES = 2
 var MAX_PIECES = 100 # starts stuttering around 200 or so I think
 
