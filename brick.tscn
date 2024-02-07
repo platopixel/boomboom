@@ -83,7 +83,7 @@ func shake(direction: Vector2):
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wr3"]
-radius = 29.5
+radius = 59.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d3n2a"]
 animations = [{
@@ -108,8 +108,8 @@ animations = [{
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_npv47"]
 resource_local_to_scene = true
 shader = ExtResource("5_8jgbb")
-shader_parameter/flashColor = Color(1, 1, 1, 1)
-shader_parameter/brickColor = Color(1, 0, 1, 1)
+shader_parameter/flashColor = Color(1, 0.501961, 0.643137, 1)
+shader_parameter/brickColor = Color(0, 0.470588, 0.6, 1)
 shader_parameter/flashState = 0.0
 
 [sub_resource type="Animation" id="Animation_fudon"]
@@ -150,7 +150,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a8wji"]
-radius = 29.5
+radius = 59.0
 
 [node name="Brick" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_8h5s7")
@@ -159,6 +159,7 @@ freeze = true
 script = SubResource("GDScript_defx2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(18, 30)
 shape = SubResource("CircleShape2D_67wr3")
 
@@ -169,8 +170,9 @@ animation = &"flash_colors"
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 material = SubResource("ShaderMaterial_npv47")
-scale = Vector2(25, 25)
-color = Color(0.862745, 0, 0.87451, 1)
+position = Vector2(-19.431, -31.0345)
+scale = Vector2(51.2931, 50.8621)
+color = Color(1, 0.14902, 0.454902, 1)
 polygon = PackedVector2Array(-0.32, 1.64, -0.12, 2, 0.16, 2.2, 0.4, 2.3, 0.72, 2.36, 1.1, 2.3, 1.44, 2.08, 1.64, 1.88, 1.8, 1.6, 1.88, 1.28, 1.84, 1, 1.76, 0.72, 1.64, 0.52, 1.52, 0.36, 1.3, 0.2, 1.1, 0.1, 0.76, 0.04, 0.44, 0.08, 0.2, 0.16, -0.04, 0.32, -0.2, 0.52, -0.36, 0.76, -0.44, 1.2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Polygon2D"]
@@ -189,7 +191,8 @@ offset_left = -3.0
 offset_top = 20.0
 offset_right = 37.0
 offset_bottom = 39.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.980392, 0.992157, 1, 1)
+theme_override_colors/font_outline_color = Color(0.262745, 0, 0.403922, 1)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("6_unvki")
 theme_override_font_sizes/font_size = 18

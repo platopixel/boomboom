@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ckkbg7gk70oli"]
+[gd_scene load_steps=12 format=3 uid="uid://ckkbg7gk70oli"]
 
 [ext_resource type="Texture2D" uid="uid://bvm43nnuljm6u" path="res://art/piece.png" id="1_26os8"]
 [ext_resource type="Shader" path="res://piece.gdshader" id="1_kn13q"]
@@ -82,15 +82,6 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_lkal3"]
 radius = 9.0
 
-[sub_resource type="Gradient" id="Gradient_yqh5n"]
-offsets = PackedFloat32Array(0, 0.84739, 0.995984, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.0265769, 0.0265769, 0.0265769, 1, 0.903614, 0.903614, 0.903614, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_6cayb"]
-gradient = SubResource("Gradient_yqh5n")
-fill_from = Vector2(0.589744, 0.594017)
-fill_to = Vector2(0.0042735, 0.0213675)
-
 [node name="Piece" type="RigidBody2D"]
 mass = 0.45
 physics_material_override = SubResource("PhysicsMaterial_i4qta")
@@ -118,9 +109,8 @@ texture = SubResource("GradientTexture2D_sft24")
 shape = SubResource("CircleShape2D_lkal3")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(1, 0.929412, 0.0705882, 1)
-texture = SubResource("GradientTexture2D_6cayb")
-polygon = PackedVector2Array(0, -9, 7, -6, 9, 0, 7, 6, 0, 9, -7, 6, -9, 0, -6, -7)
+color = Color(0.839216, 0.141176, 0.0666667, 1)
+polygon = PackedVector2Array(0, -9, 4, -8, 7, -6, 8, -4, 9, 0, 8, 4, 7, 6, 4, 8, 0, 9, -4, 8, -7, 6, -8, 4, -9, 0, -8, -4, -6, -7, -4, -8)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Polygon2D"]
 libraries = {

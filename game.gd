@@ -1,6 +1,6 @@
 extends Node2D
 
-var NUM_BRICKS = 20
+var NUM_BRICKS = 6
 var NUM_PIECES = 2
 var MAX_PIECES = 100 # starts stuttering around 200 or so I think
 
@@ -55,21 +55,23 @@ func _on_missile_detonate(position):
 	add_child(explosion)
 
 func _on_brick_explode(position, num_pieces):
+	var points = points_scene.instantiate()
+	points.value = num_pieces
+	points.position = position
+	add_child(points)
+	add_points(num_pieces)
+	
 	create_pieces(position, num_pieces)
 	# this is getting called before the brick removes itself so set this to 1 instead of 0
 	if (get_tree().get_nodes_in_group("brick").size() == 1):
 		game_over()
 
-func add_points():
-	points += 1
+func add_points(num_points):
+	points += num_points
 	$HUD/PointsLabel.text = "Points: " + str(points)
 
 func _on_brick_hit(brick):
-	var points = points_scene.instantiate()
-	points.value = brick.num_hits
-	points.position = brick.position
-	add_child(points)
-	add_points()
+	pass
 
 func is_overlapping_with_bricks(new_position):
 	var bricks = get_tree().get_nodes_in_group("brick")

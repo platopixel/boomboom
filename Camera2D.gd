@@ -1,6 +1,6 @@
 extends Camera2D
 
-@export var strength: float = 10.0
+@export var base_strength: float = 10.0
 @export var shake_fade: float = 5.0
 
 var rng = RandomNumberGenerator.new()
@@ -14,7 +14,7 @@ func _process(delta):
 		offset = random_offset()
 
 func apply_shake():
-	shake_strength = strength
+	shake_strength = base_strength
 
 func random_offset() -> Vector2:
 	return Vector2(rng.randf_range(-shake_strength, shake_strength), rng.randf_range(-shake_strength, shake_strength))
