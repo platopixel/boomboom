@@ -9,6 +9,7 @@ var brick_scene = preload("res://brick.tscn")
 var piece_scene = preload("res://piece.tscn")
 var explosion_scene = preload("res://explosion.tscn")
 var points_scene = preload("res://animated_points.tscn")
+var boundary_animation_scene = preload("res://boundary_animation.tscn")
 
 var is_playing = false
 var points = 0
@@ -79,10 +80,10 @@ func reset_game_state():
 		missile.queue_free()
 
 
-func _on_explosion_hit(body):
+func _on_explosion_hit(explosion, body):
 	if body.is_in_group("brick"):
 		$Camera2D.apply_shake()
-		_on_brick_explode(body.position, body.num_hits)
+		_on_brick_explode(explosion.position, body.num_hits)
 		body.queue_free()
 
 func _on_missile_detonate(position):
@@ -108,8 +109,16 @@ func add_points(num_points):
 	points += num_points
 	$HUD/PointsLabel.text = "Points: " + str(points)
 
-func _on_brick_hit(brick):
-	pass
+func _on_brick_hit_by_piece(brick):
+	if brick.num_hits >= brick.hit_threshold:
+		# explode brick
+		_on_explosion_hit(brick, brick) # hack: passing brick as explosion param here
+		
+
+func _on_piece_exited_screen(position_x):
+	var instance = boundary_animation_scene.instantiate()
+	instance.position = Vector2(position_x, get_viewport_rect().size.y)
+	add_child(instance)
 
 func is_overlapping_with_bricks(new_position):
 	var bricks = get_tree().get_nodes_in_group("brick")
@@ -121,18 +130,17 @@ func is_overlapping_with_bricks(new_position):
 func generate_bricks(num_bricks):
 	for i in range(num_bricks):
 		var instance = brick_scene.instantiate()
-		instance.connect("hit_by_piece", _on_brick_hit)
+		instance.connect("hit_by_piece", _on_brick_hit_by_piece)
 		var random_position = Vector2(
 			randi_range(20, get_viewport_rect().size.x - 20),
 			randi_range(200, get_viewport_rect().size.y - 100)
 		)
 		if is_overlapping_with_bricks(random_position):
-			# reroll a new position and check again (recursion?)
-			print("overlapping")
+			# reroll a new position and check again (todo: recursion?)
 			random_position = Vector2(
-			randi_range(20, get_viewport_rect().size.x - 20),
-			randi_range(200, get_viewport_rect().size.y - 100)
-		)
+				randi_range(20, get_viewport_rect().size.x - 20),
+				randi_range(200, get_viewport_rect().size.y - 100)
+			)
 		instance.global_position = random_position
 		add_child(instance)
 
@@ -140,6 +148,7 @@ func create_pieces(position: Vector2, num_pieces: int):
 	var count = min(num_pieces, MAX_PIECES)
 	for i in range(count):
 		var instance = piece_scene.instantiate()
+		instance.connect("exited_screen", _on_piece_exited_screen)
 		# Must use call_deferred here otherwise the instance position will not be set correctly
 		instance.call_deferred("set_global_position", position)
 		# Apply explosion impulse

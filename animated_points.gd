@@ -6,7 +6,6 @@ var value = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label.text = str(value)
-	print("value: ", value)
 	var modifier: float = float(value / 100)
 	$Label.scale *= modifier
 	var rand_x = randf_range(-25, 25)

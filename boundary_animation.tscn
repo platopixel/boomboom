@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://tn18dln230nb"]
+
+[ext_resource type="Texture2D" uid="uid://4tikvhmymph1" path="res://art/sprite_boundary0.png" id="1_7w8xv"]
+[ext_resource type="Texture2D" uid="uid://1y5lpyfuobgg" path="res://art/sprite_boundary1.png" id="2_p20mb"]
+[ext_resource type="Texture2D" uid="uid://bxori40boew06" path="res://art/sprite_boundary2.png" id="3_5egqs"]
+[ext_resource type="Texture2D" uid="uid://7beglxiqwmxl" path="res://art/sprite_boundary3.png" id="4_71asl"]
+[ext_resource type="Texture2D" uid="uid://5t8j5107jvbe" path="res://art/sprite_boundary4.png" id="5_u5b7j"]
+[ext_resource type="Script" path="res://boundary_animation.gd" id="6_lv3rh"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s2hhf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7w8xv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_p20mb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5egqs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_71asl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_u5b7j")
+}],
+"loop": false,
+"name": &"boundary",
+"speed": 30.0
+}]
+
+[node name="BoundaryAnimation" type="AnimatedSprite2D"]
+scale = Vector2(1.39063, 2.947)
+sprite_frames = SubResource("SpriteFrames_s2hhf")
+animation = &"boundary"
+autoplay = "boundary"
+script = ExtResource("6_lv3rh")
