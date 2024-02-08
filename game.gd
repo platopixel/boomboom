@@ -1,7 +1,7 @@
 extends Node2D
 
-var NUM_BRICKS = 12
-var NUM_PIECES = 2
+var NUM_BRICKS = 6
+var NUM_PIECES = 3
 var MAX_PIECES = 100 # starts stuttering around 200 or so I think
 
 var missile_scene = preload("res://missile.tscn")
@@ -14,6 +14,7 @@ var boundary_animation_scene = preload("res://boundary_animation.tscn")
 var is_playing = false
 var points = 0
 var high_score = 0
+var score_multiplier = 1
 
 # This is the main game scene where the gameplay takes place
 func _ready():
@@ -52,6 +53,7 @@ func check_high_score():
 	var current_high_score = get_high_score_from_config()
 	if points > current_high_score:
 		high_score = points
+		$HUD.show_new_high_score(high_score)
 		# save new high score
 		set_high_score_on_config(high_score)
 	else:
@@ -98,12 +100,8 @@ func _on_brick_explode(position, num_pieces):
 	points.value = num_pieces
 	points.position = position
 	add_child(points)
-	add_points(num_pieces)
 	
 	create_pieces(position, num_pieces)
-	# this is getting called before the brick removes itself so set this to 1 instead of 0
-	if (get_tree().get_nodes_in_group("brick").size() == 1):
-		game_over()
 
 func add_points(num_points):
 	points += num_points
@@ -111,11 +109,18 @@ func add_points(num_points):
 
 func _on_brick_hit_by_piece(brick):
 	if brick.num_hits >= brick.hit_threshold:
+		score_multiplier += 1
+		$HUD.update_multiplier(score_multiplier)
 		# explode brick
 		_on_explosion_hit(brick, brick) # hack: passing brick as explosion param here
 		
 
 func _on_piece_exited_screen(position_x):
+	add_points(1 * score_multiplier)
+	
+	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
+		game_over()
+	
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(position_x, get_viewport_rect().size.y)
 	add_child(instance)
@@ -161,6 +166,8 @@ func create_pieces(position: Vector2, num_pieces: int):
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_playing:
+		score_multiplier = 1
+		$HUD.update_multiplier(score_multiplier)
 		# Mouse clicked - instantiate and send scene
 		var instance = missile_scene.instantiate()
 		instance.connect("detonate_missile", _on_missile_detonate)

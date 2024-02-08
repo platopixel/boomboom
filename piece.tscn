@@ -1,10 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ckkbg7gk70oli"]
-
-[ext_resource type="Texture2D" uid="uid://4tikvhmymph1" path="res://art/sprite_boundary0.png" id="1_x7m6b"]
-[ext_resource type="Texture2D" uid="uid://1y5lpyfuobgg" path="res://art/sprite_boundary1.png" id="2_cehk2"]
-[ext_resource type="Texture2D" uid="uid://bxori40boew06" path="res://art/sprite_boundary2.png" id="3_eluu5"]
-[ext_resource type="Texture2D" uid="uid://7beglxiqwmxl" path="res://art/sprite_boundary3.png" id="4_aikvl"]
-[ext_resource type="Texture2D" uid="uid://5t8j5107jvbe" path="res://art/sprite_boundary4.png" id="5_5dv07"]
+[gd_scene load_steps=9 format=3 uid="uid://ckkbg7gk70oli"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i4qta"]
 bounce = 0.65
@@ -85,29 +79,6 @@ _data = {
 "flash": SubResource("Animation_qshg5")
 }
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_jjuyv"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_x7m6b")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_cehk2")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_eluu5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_aikvl")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_5dv07")
-}],
-"loop": false,
-"name": &"boundary",
-"speed": 20.0
-}]
-
 [node name="Piece" type="RigidBody2D"]
 mass = 0.45
 physics_material_override = SubResource("PhysicsMaterial_i4qta")
@@ -133,11 +104,6 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_jjuyv")
-animation = &"boundary"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -24,13 +24,13 @@ var shake_timer = 0
 var is_bouncing = false
 var initial_position
 var hit_direction
-var num_hits = 2
+var num_hits = 3
 var hit_threshold = 1
 
 func _ready():
 	# godot wasn't respecting the initial flashState value so manually set it here
 	$Sprite2D.get_material().set_shader_parameter(\"flashState\", 0)
-	hit_threshold = randi_range(10, 150)
+	hit_threshold = randi_range(10, 100)
 	$Label.text = str(num_hits) + \"/\" + str(hit_threshold)
 	add_to_group(\"brick\")
 

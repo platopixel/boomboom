@@ -4,12 +4,15 @@ signal start_game
 
 func _ready():
 	$PointsLabel.hide()
+	$NewHighScoreLabel.hide()
+	$MultiplierLabel.hide()
 
 func show_message(text):
 	$Message.text = text
 	$Message.show()
 
 func show_game_over():
+	$MultiplierLabel.hide()
 	show_message("Game Over")
 	# Make a one-shot timer and wait for it to finish.
 	await get_tree().create_timer(2.0).timeout
@@ -18,7 +21,9 @@ func show_game_over():
 func _on_start_button_pressed():
 	$StartButton.hide()
 	$Message.hide()
+	$NewHighScoreLabel.hide()
 	$PointsLabel.show()
+	$MultiplierLabel.show()
 	emit_signal("start_game")
 
 
@@ -28,3 +33,11 @@ func _on_reset_button_pressed():
 
 func update_high_score(points):
 	$HighScoreLabel.text = "High Score: " + str(points)
+
+func show_new_high_score(score):
+	$NewHighScoreLabel.text = "New High Score! \n" + str(score)
+	$NewHighScoreLabel.show()
+	
+
+func update_multiplier(multiplier):
+	$MultiplierLabel.text = str(multiplier) + "x"
