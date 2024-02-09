@@ -24,6 +24,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("5_u5b7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_71asl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_u5b7j")
 }],
 "loop": false,
 "name": &"boundary",
@@ -31,8 +37,10 @@ animations = [{
 }]
 
 [node name="BoundaryAnimation" type="AnimatedSprite2D"]
-scale = Vector2(1.39063, 2.947)
+scale = Vector2(2.2, 6.203)
 sprite_frames = SubResource("SpriteFrames_s2hhf")
 animation = &"boundary"
 autoplay = "boundary"
+frame = 6
+frame_progress = 1.0
 script = ExtResource("6_lv3rh")

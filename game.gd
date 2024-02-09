@@ -1,6 +1,6 @@
 extends Node2D
 
-var NUM_BRICKS = 6
+var NUM_BRICKS = 9
 var NUM_PIECES = 3
 var MAX_PIECES = 100 # starts stuttering around 200 or so I think
 
@@ -12,6 +12,7 @@ var points_scene = preload("res://animated_points.tscn")
 var boundary_animation_scene = preload("res://boundary_animation.tscn")
 
 var is_playing = false
+var is_slow_mo = false
 var points = 0
 var high_score = 0
 var score_multiplier = 1
@@ -21,11 +22,23 @@ func _ready():
 	$Turret.hide()
 	check_high_score() # get high score on game load
 
+
+func _process(delta):
+	if is_slow_mo:
+		Engine.time_scale += 0.01
+		if Engine.time_scale >= 1.0:
+			Engine.time_scale = 1.0
+			is_slow_mo = false
+
+
 func game_start():
 	reset_game_state()
 	generate_bricks(NUM_BRICKS)
 	$Turret.show()
 	is_playing = true
+	is_slow_mo = false
+	Engine.time_scale = 1.0
+
 
 func get_high_score_from_config():
 	var config = ConfigFile.new()
@@ -85,7 +98,7 @@ func reset_game_state():
 func _on_explosion_hit(explosion, body):
 	if body.is_in_group("brick"):
 		$Camera2D.apply_shake()
-		_on_brick_explode(explosion.position, body.num_hits)
+		_on_brick_explode(body.position, body.num_hits)
 		body.queue_free()
 
 func _on_missile_detonate(position):
@@ -100,7 +113,7 @@ func _on_brick_explode(position, num_pieces):
 	points.value = num_pieces
 	points.position = position
 	add_child(points)
-	
+	start_slow_motion(num_pieces)
 	create_pieces(position, num_pieces)
 
 func add_points(num_points):
@@ -125,6 +138,16 @@ func _on_piece_exited_screen(position_x):
 	instance.position = Vector2(position_x, get_viewport_rect().size.y)
 	add_child(instance)
 
+
+func start_slow_motion(weight):
+	if !is_slow_mo:
+		var min_time_scale = 0.1
+		var modifier = 1.0 - (weight / 100.0)
+		if modifier < min_time_scale:
+			modifier = min_time_scale
+		Engine.time_scale = modifier
+		is_slow_mo = true
+
 func is_overlapping_with_bricks(new_position):
 	var bricks = get_tree().get_nodes_in_group("brick")
 	for brick in bricks:
@@ -137,13 +160,13 @@ func generate_bricks(num_bricks):
 		var instance = brick_scene.instantiate()
 		instance.connect("hit_by_piece", _on_brick_hit_by_piece)
 		var random_position = Vector2(
-			randi_range(20, get_viewport_rect().size.x - 20),
-			randi_range(200, get_viewport_rect().size.y - 100)
+			randi_range((20 + instance.get_brick_width()), get_viewport_rect().size.x - (20 + instance.get_brick_width())),
+			randi_range(200, get_viewport_rect().size.y - 200)
 		)
 		if is_overlapping_with_bricks(random_position):
 			# reroll a new position and check again (todo: recursion?)
 			random_position = Vector2(
-				randi_range(20, get_viewport_rect().size.x - 20),
+				randi_range((20 + instance.get_brick_width()), get_viewport_rect().size.x - (20 + instance.get_brick_width())),
 				randi_range(200, get_viewport_rect().size.y - 100)
 			)
 		instance.global_position = random_position

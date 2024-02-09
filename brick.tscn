@@ -16,12 +16,6 @@ signal hit_by_piece
 
 var area_hit
 
-# Parameters for the shake effect
-# var shake_intensity = Vector2(-10, -10)
-var shake_intensity = 3
-var shake_duration = 0.075
-var shake_timer = 0
-var is_bouncing = false
 var initial_position
 var hit_direction
 var num_hits = 3
@@ -66,10 +60,9 @@ func _on_body_entered(body):
 	elif body is RigidBody2D:
 		emit_signal(\"hit_by_piece\", self)
 
-func shake(direction: Vector2):
-	hit_direction = direction
-	initial_position = position
-	shake_timer = shake_duration
+
+func get_brick_width():
+	return $Sprite2D.texture.get_width() * $Sprite2D.scale.x
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mgyre"]
@@ -115,10 +108,10 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wr3"]
-radius = 45.0
+radius = 65.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a8wji"]
-radius = 45.0
+radius = 65.0
 
 [node name="Brick" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_8h5s7")
@@ -129,7 +122,7 @@ script = SubResource("GDScript_defx2")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_mgyre")
 position = Vector2(18, 30)
-scale = Vector2(2.8125, 2.8125)
+scale = Vector2(4, 4)
 texture = ExtResource("7_6gfjx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
@@ -138,7 +131,6 @@ libraries = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(18, 30)
 shape = SubResource("CircleShape2D_67wr3")
 
@@ -149,18 +141,19 @@ position = Vector2(18, 30)
 shape = SubResource("CircleShape2D_a8wji")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -3.0
-offset_top = 20.0
-offset_right = 37.0
-offset_bottom = 39.0
+offset_left = -35.0
+offset_top = 4.0
+offset_right = 73.0
+offset_bottom = 53.0
 theme_override_colors/font_color = Color(0.980392, 0.992157, 1, 1)
 theme_override_colors/font_outline_color = Color(0.262745, 0, 0.403922, 1)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("6_unvki")
 theme_override_font_sizes/font_size = 18
-text = "2"
+text = "2 / 30"
 horizontal_alignment = 1
 vertical_alignment = 1
+justification_flags = 162
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
