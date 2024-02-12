@@ -4,7 +4,7 @@ var brick_scene = preload("res://brick.tscn")
 
 signal hit_by_piece
 
-@export var NUM_BRICKS = 12
+@export var NUM_BRICKS = 10
 var next_level = null
 
 
@@ -31,7 +31,7 @@ func generate_bricks(num_bricks):
 			randi_range((20 + instance.get_brick_width()), get_viewport_rect().size.x - (20 + instance.get_brick_width())),
 			randi_range(200, get_viewport_rect().size.y - 200)
 		)
-		if is_overlapping_with_bricks(random_position):
+		while is_overlapping_with_bricks(random_position):
 			# reroll a new position and check again (todo: recursion?)
 			random_position = Vector2(
 				randi_range((20 + instance.get_brick_width()), get_viewport_rect().size.x - (20 + instance.get_brick_width())),
@@ -44,7 +44,7 @@ func generate_bricks(num_bricks):
 func is_overlapping_with_bricks(new_position):
 	var bricks = get_tree().get_nodes_in_group("brick")
 	for brick in bricks:
-		if brick.global_position.distance_to(new_position) < 100:
+		if brick.global_position.distance_to(new_position) < 150:
 			return true
 	return false
 

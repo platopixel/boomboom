@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ds53ifs50p0jt" path="res://art/orb.png" id="2_ni8fj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i4qta"]
-bounce = 0.65
+bounce = 0.5
 
 [sub_resource type="GDScript" id="GDScript_6b2e7"]
 script/source = "extends RigidBody2D
@@ -80,8 +80,9 @@ _data = {
 }
 
 [node name="Piece" type="RigidBody2D"]
-mass = 0.45
+mass = 0.8
 physics_material_override = SubResource("PhysicsMaterial_i4qta")
+gravity_scale = 0.75
 script = SubResource("GDScript_6b2e7")
 metadata/_edit_group_ = true
 

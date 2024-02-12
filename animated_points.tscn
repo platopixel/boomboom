@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://animated_points.gd" id="1_1pjcn"]
 [ext_resource type="FontFile" uid="uid://dtxpxqe0wu7o" path="res://fonts/Xolonium-Regular.ttf" id="1_g67o3"]
 
-[node name="AnimatedPoints" type="Marker2D"]
+[node name="AnimatedPoints" type="Marker2D" groups=["points"]]
 script = ExtResource("1_1pjcn")
 
 [node name="Label" type="Label" parent="."]

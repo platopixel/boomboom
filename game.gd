@@ -107,12 +107,15 @@ func reset_game_state():
 	var bricks = get_tree().get_nodes_in_group("brick")
 	var pieces = get_tree().get_nodes_in_group("piece")
 	var missiles = get_tree().get_nodes_in_group("missile")
+	var points = get_tree().get_nodes_in_group("points")
 	for brick in bricks:
 		brick.queue_free()
 	for piece in pieces:
 		piece.queue_free()
 	for missile in missiles:
 		missile.queue_free()
+	for point in points:
+		point.queue_free()
 
 
 func _on_explosion_hit(explosion, body):
