@@ -18,9 +18,11 @@ var area_hit
 
 var initial_position
 var hit_direction
+
 # bricks are num_hits / hit_threshold
 @export var num_hits = 10 # initial hits
 @export var hit_threshold = randi_range(10, 100) # num hits before brick explodes
+
 
 func _ready():
 	# godot wasn't respecting the initial flashState value so manually set it here
@@ -36,7 +38,7 @@ func _on_area_2d_body_entered(body):
 		body.detonate()
 		area_hit = body.global_position
 	elif body.is_in_group(\"piece\"):
-		num_hits += randi_range(1, 5)
+		num_hits += 1
 		$Label.text = str(num_hits) + \"/\" + str(hit_threshold)
 		# Reset the animation so it flashes every time it's hit
 		$Sprite2D/AnimationPlayer.seek(0, true)
@@ -48,6 +50,7 @@ func _on_AnimatedSprite2D_animation_finished():
 	if area_hit:
 		emit_signal(\"detonate\", area_hit)
 	queue_free()
+
 
 # This was used when the Brick was an Area2D before I updated it to a rigidbody
 func _on_body_entered(body):

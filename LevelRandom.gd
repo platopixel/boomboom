@@ -18,9 +18,8 @@ func _process(delta):
 	pass
 
 
-func _on_brick_hit_by_piece():
-	print('brick hit!')
-	emit_signal("hit_by_piece", self)
+func _on_brick_hit_by_piece(brick):
+	emit_signal("hit_by_piece", brick)
 
 
 # Randomized brick placement
