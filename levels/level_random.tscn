@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgvjamylt6w6e"]
+
+[ext_resource type="Script" path="res://LevelRandom.gd" id="1_icayy"]
+
+[node name="LevelRandom" type="Node2D"]
+script = ExtResource("1_icayy")

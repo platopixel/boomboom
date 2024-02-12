@@ -1,6 +1,6 @@
 extends Node2D
 
-var NUM_BRICKS = 9
+var NUM_BRICKS = 5
 var NUM_PIECES = 3
 var MAX_PIECES = 100 # starts stuttering around 200 or so I think
 
@@ -10,12 +10,16 @@ var piece_scene = preload("res://piece.tscn")
 var explosion_scene = preload("res://explosion.tscn")
 var points_scene = preload("res://animated_points.tscn")
 var boundary_animation_scene = preload("res://boundary_animation.tscn")
+var level_1_scene = preload("res://levels/level_1.tscn")
 
 var is_playing = false
 var is_slow_mo = false
 var points = 0
 var high_score = 0
 var score_multiplier = 1
+
+var current_level
+
 
 # This is the main game scene where the gameplay takes place
 func _ready():
@@ -33,7 +37,9 @@ func _process(delta):
 
 func game_start():
 	reset_game_state()
-	generate_bricks(NUM_BRICKS)
+	current_level = level_1_scene.instantiate()
+	current_level.connect("hit_by_piece", _on_brick_hit_by_piece)
+	add_child(current_level)
 	$Turret.show()
 	is_playing = true
 	is_slow_mo = false
@@ -52,6 +58,7 @@ func get_high_score_from_config():
 		# Fetch the data for each section.
 		return config.get_value(config_item, "high_score")
 
+
 func set_high_score_on_config(new_high_score):
 	var config = ConfigFile.new()
 	# Load data from a file.
@@ -61,6 +68,7 @@ func set_high_score_on_config(new_high_score):
 		return
 	config.set_value("high_score", "high_score", new_high_score)
 	config.save("res://boomboom.cfg")
+
 
 func check_high_score():
 	var current_high_score = get_high_score_from_config()
@@ -75,10 +83,22 @@ func check_high_score():
 	$HUD.update_high_score(high_score)
 
 
+func level_over():
+	var prev_level = current_level
+	if current_level.next_level:
+		current_level = current_level.next_level.instantiate()
+		prev_level.level_over()
+		current_level.connect("hit_by_piece", _on_brick_hit_by_piece)
+		add_child(current_level)
+	else:
+		game_over()
+
+
 func game_over():
 	is_playing = false
 	check_high_score()
 	$HUD.show_game_over()
+
 
 func reset_game_state():
 	add_points(-(points))
@@ -101,12 +121,14 @@ func _on_explosion_hit(explosion, body):
 		_on_brick_explode(body.position, body.num_hits)
 		body.queue_free()
 
+
 func _on_missile_detonate(position):
 	# instantiate explosion scene
 	var explosion = explosion_scene.instantiate()
 	explosion.connect("hit_by_explosion", _on_explosion_hit)
 	explosion.position = position
 	add_child(explosion)
+
 
 func _on_brick_explode(position, num_pieces):
 	var points = points_scene.instantiate()
@@ -116,9 +138,11 @@ func _on_brick_explode(position, num_pieces):
 	start_slow_motion(num_pieces)
 	create_pieces(position, num_pieces)
 
+
 func add_points(num_points):
 	points += num_points
 	$HUD/PointsLabel.text = "Points: " + str(points)
+
 
 func _on_brick_hit_by_piece(brick):
 	if brick.num_hits >= brick.hit_threshold:
@@ -126,13 +150,14 @@ func _on_brick_hit_by_piece(brick):
 		$HUD.update_multiplier(score_multiplier)
 		# explode brick
 		_on_explosion_hit(brick, brick) # hack: passing brick as explosion param here
-		
+
 
 func _on_piece_exited_screen(position_x):
 	add_points(1 * score_multiplier)
 	
 	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
-		game_over()
+		# game_over()
+		level_over()
 	
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(position_x, get_viewport_rect().size.y)
@@ -148,29 +173,6 @@ func start_slow_motion(weight):
 		Engine.time_scale = modifier
 		is_slow_mo = true
 
-func is_overlapping_with_bricks(new_position):
-	var bricks = get_tree().get_nodes_in_group("brick")
-	for brick in bricks:
-		if brick.global_position.distance_to(new_position) < 100:
-			return true
-	return false
-
-func generate_bricks(num_bricks):
-	for i in range(num_bricks):
-		var instance = brick_scene.instantiate()
-		instance.connect("hit_by_piece", _on_brick_hit_by_piece)
-		var random_position = Vector2(
-			randi_range((20 + instance.get_brick_width()), get_viewport_rect().size.x - (20 + instance.get_brick_width())),
-			randi_range(200, get_viewport_rect().size.y - 200)
-		)
-		if is_overlapping_with_bricks(random_position):
-			# reroll a new position and check again (todo: recursion?)
-			random_position = Vector2(
-				randi_range((20 + instance.get_brick_width()), get_viewport_rect().size.x - (20 + instance.get_brick_width())),
-				randi_range(200, get_viewport_rect().size.y - 100)
-			)
-		instance.global_position = random_position
-		add_child(instance)
 
 func create_pieces(position: Vector2, num_pieces: int):
 	var count = min(num_pieces, MAX_PIECES)
@@ -187,6 +189,7 @@ func create_pieces(position: Vector2, num_pieces: int):
 		# add scene
 		call_deferred("add_child", instance)
 
+
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_playing:
 		score_multiplier = 1
@@ -197,6 +200,7 @@ func _input(event):
 		add_child(instance)
 		instance.global_position = Vector2(get_viewport_rect().size.x / 2, 80)
 		send_along_path(instance, event.global_position)
+
 
 func send_along_path(instance, destination):
 	instance.look_at(destination)

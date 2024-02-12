@@ -18,13 +18,13 @@ var area_hit
 
 var initial_position
 var hit_direction
-var num_hits = 3
-var hit_threshold = 1
+# bricks are num_hits / hit_threshold
+@export var num_hits = 10 # initial hits
+@export var hit_threshold = randi_range(10, 100) # num hits before brick explodes
 
 func _ready():
 	# godot wasn't respecting the initial flashState value so manually set it here
 	$Sprite2D.get_material().set_shader_parameter(\"flashState\", 0)
-	hit_threshold = randi_range(10, 100)
 	$Label.text = str(num_hits) + \"/\" + str(hit_threshold)
 	add_to_group(\"brick\")
 
