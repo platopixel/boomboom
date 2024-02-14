@@ -85,7 +85,9 @@ func check_high_score():
 
 func level_over():
 	var prev_level = current_level
-	if current_level.next_level:
+	if !current_level.has_won():
+		current_level.level_lost()
+	elif current_level.next_level:
 		current_level = current_level.next_level.instantiate()
 		prev_level.level_over()
 		current_level.connect("hit_by_piece", _on_brick_hit_by_piece)

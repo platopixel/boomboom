@@ -1,22 +1,26 @@
-extends Node2D
+extends Level
 
-signal hit_by_piece
+@export var next_level_scene: PackedScene = preload("res://levels/level_2.tscn")
 
-@export var next_level: PackedScene = preload("res://levels/level_2.tscn")
+var brick1
+var brick2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var brick = $Brick
-	$Brick.connect("hit_by_piece", _on_hit_by_piece)
-	$Brick2.connect("hit_by_piece", _on_hit_by_piece)
+	next_level = next_level_scene
+	brick1 = $Brick
+	brick2 = $Brick2
+	brick1.connect("hit_by_piece", _on_hit_by_piece)
+	brick2.connect("hit_by_piece", _on_hit_by_piece)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-func _on_hit_by_piece(brick):
-	emit_signal("hit_by_piece", brick)
 
 func level_over():
 	queue_free()
+
+
+func has_won():
+	return !brick1 && !brick2
+
+
+func level_lost():
+	print('level lost')

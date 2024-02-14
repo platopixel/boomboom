@@ -1,17 +1,53 @@
-[gd_scene load_steps=3 format=3 uid="uid://bainb7plps7up"]
+[gd_scene load_steps=6 format=3 uid="uid://bainb7plps7up"]
 
 [ext_resource type="Script" path="res://levels/level_2.gd" id="1_q3dod"]
 [ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_57i8s"]
+[ext_resource type="Texture2D" uid="uid://cupmkmvm8mr1y" path="res://art/sprite_bricks3.png" id="3_786kq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oi3ll"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0sgnr"]
+radius = 11.3137
+height = 463.862
 
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_q3dod")
 
 [node name="Brick" parent="." instance=ExtResource("2_57i8s")]
-position = Vector2(184, 472)
+position = Vector2(352, 512)
 num_hits = 5
 hit_threshold = 10
 
 [node name="Brick2" parent="." instance=ExtResource("2_57i8s")]
-position = Vector2(448, 472)
+position = Vector2(360, 896)
 num_hits = 1
 hit_threshold = 5
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_oi3ll")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(592, 552)
+rotation = 2.35619
+scale = Vector2(22.6368, 1.48038)
+texture = ExtResource("3_786kq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(592, 552)
+rotation = 0.785397
+shape = SubResource("CapsuleShape2D_0sgnr")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-40, 8)
+physics_material_override = SubResource("PhysicsMaterial_oi3ll")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(176, 544)
+rotation = 2.35619
+shape = SubResource("CapsuleShape2D_0sgnr")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(176, 544)
+rotation = 0.785397
+scale = Vector2(23.0921, 1.74464)
+texture = ExtResource("3_786kq")

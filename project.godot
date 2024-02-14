@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=720
 window/size/viewport_height=1280
+window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
@@ -31,6 +32,11 @@ version_control/autoload_on_startup=true
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[gui]
+
+timers/text_edit_idle_detect_sec=0.46
+timers/tooltip_delay_sec=0.04
 
 [physics]
 
