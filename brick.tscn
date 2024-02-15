@@ -1,9 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cq1tglkkatsqo"]
+[gd_scene load_steps=12 format=3 uid="uid://cq1tglkkatsqo"]
 
 [ext_resource type="Texture2D" uid="uid://ckt2hqjyt16xo" path="res://art/wall.png.png" id="2_rtkgn"]
 [ext_resource type="Shader" path="res://brick.gdshader" id="5_8jgbb"]
 [ext_resource type="FontFile" uid="uid://dtxpxqe0wu7o" path="res://fonts/Xolonium-Regular.ttf" id="6_unvki"]
-[ext_resource type="Texture2D" uid="uid://ds53ifs50p0jt" path="res://art/orb.png" id="7_6gfjx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h5s7"]
 rough = true
@@ -112,10 +111,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6ngbx"]
-size = Vector2(128, 128)
+size = Vector2(96, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ctkqc"]
-size = Vector2(128, 128)
+size = Vector2(96, 96)
 
 [node name="Brick" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_8h5s7")
@@ -126,22 +125,10 @@ script = SubResource("GDScript_defx2")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_mgyre")
 position = Vector2(18, 30)
-scale = Vector2(4, 4)
+scale = Vector2(3, 3)
 texture = ExtResource("2_rtkgn")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
-libraries = {
-"": SubResource("AnimationLibrary_fy5al")
-}
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_mgyre")
-position = Vector2(18, 30)
-scale = Vector2(4, 4)
-texture = ExtResource("7_6gfjx")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D2"]
 libraries = {
 "": SubResource("AnimationLibrary_fy5al")
 }

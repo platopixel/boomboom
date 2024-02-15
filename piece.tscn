@@ -25,13 +25,10 @@ func _ready():
 	$Sprite2D/AnimationPlayer.speed_scale = random_animation_duration
 	$Sprite2D/AnimationPlayer.play(\"brick_flash\")
 
+
 func _on_body_entered(body):
 	emit_signal(\"hit\", body)
 
-
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	emit_signal(\"exited_screen\", self.position.x)
-	queue_free()
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lkal3"]
@@ -89,8 +86,6 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lkal3")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_2jpwd")
 scale = Vector2(0.55, 0.55)
@@ -102,4 +97,3 @@ libraries = {
 }
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

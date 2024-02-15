@@ -148,7 +148,7 @@ func _on_brick_explode(position, num_pieces):
 
 func add_points(num_points):
 	points += num_points
-	$HUD/PointsLabel.text = "Points: " + str(points)
+	$HUD.update_points(points)
 
 
 func _on_brick_hit_by_piece(brick):
@@ -159,7 +159,7 @@ func _on_brick_hit_by_piece(brick):
 		_on_explosion_hit(brick, brick) # hack: passing brick as explosion param here
 
 
-func _on_piece_exited_screen(position_x):
+func _on_piece_exited_screen(piece):
 	add_points(1 * score_multiplier)
 	
 	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
@@ -167,8 +167,9 @@ func _on_piece_exited_screen(position_x):
 		level_over()
 	
 	var instance = boundary_animation_scene.instantiate()
-	instance.position = Vector2(position_x, get_viewport_rect().size.y)
+	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
 	add_child(instance)
+	piece.queue_free()
 
 
 func start_slow_motion(weight):
@@ -185,7 +186,7 @@ func create_pieces(position: Vector2, num_pieces: int):
 	var count = min(num_pieces, MAX_PIECES)
 	for i in range(count):
 		var instance = piece_scene.instantiate()
-		instance.connect("exited_screen", _on_piece_exited_screen)
+		# instance.connect("exited_screen", _on_piece_exited_screen)
 		# Must use call_deferred here otherwise the instance position will not be set correctly
 		instance.call_deferred("set_global_position", position)
 		# Apply explosion impulse
@@ -219,3 +220,8 @@ func send_along_path(instance, destination):
 
 func _on_hud_start_game():
 	game_start()
+
+
+func _on_bottom_barrier_body_entered(body):
+	if body.is_in_group("piece"):
+		_on_piece_exited_screen(body)

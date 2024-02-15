@@ -38,10 +38,16 @@ func _on_reset_button_pressed():
 func update_high_score(points):
 	$HighScoreLabel.text = "High Score: " + str(points)
 
+
 func show_new_high_score(score):
 	$NewHighScoreLabel.text = "New High Score! \n" + str(score)
 	$NewHighScoreLabel.show()
 	
 
+
+func update_points(points):
+	$PanelContainer/HBoxContainer/Label.text = "Points: " + str(points)
+
 func update_multiplier(multiplier):
-	$MultiplierLabel.text = str(multiplier) + "x"
+	# $MultiplierLabel.text = str(multiplier) + "x"
+	$PanelContainer/HBoxContainer/Label2.text = str(multiplier) + "x"
