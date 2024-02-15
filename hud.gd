@@ -6,6 +6,7 @@ func _ready():
 	$PointsLabel.hide()
 	$NewHighScoreLabel.hide()
 	$MultiplierLabel.hide()
+	$ResetButton.hide()
 
 func show_message(text):
 	$Message.text = text
@@ -13,10 +14,12 @@ func show_message(text):
 
 func show_game_over():
 	$MultiplierLabel.hide()
+	$ResetButton.hide()
 	show_message("Game Over")
 	# Make a one-shot timer and wait for it to finish.
 	await get_tree().create_timer(2.0).timeout
 	$StartButton.show()
+
 
 func _on_start_button_pressed():
 	$StartButton.hide()
@@ -24,6 +27,7 @@ func _on_start_button_pressed():
 	$NewHighScoreLabel.hide()
 	$PointsLabel.show()
 	$MultiplierLabel.show()
+	$ResetButton.show()
 	emit_signal("start_game")
 
 

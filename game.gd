@@ -105,6 +105,8 @@ func game_over():
 func reset_game_state():
 	add_points(-(points))
 	points = 0
+	if current_level:
+		current_level.level_over()
 	# clear old pieces and bricks
 	var bricks = get_tree().get_nodes_in_group("brick")
 	var pieces = get_tree().get_nodes_in_group("piece")
