@@ -10,7 +10,8 @@ var piece_scene = preload("res://piece.tscn")
 var explosion_scene = preload("res://explosion.tscn")
 var points_scene = preload("res://animated_points.tscn")
 var boundary_animation_scene = preload("res://boundary_animation.tscn")
-var level_1_scene = preload("res://levels/level_1.tscn")
+# var level_1_scene = preload("res://levels/level_1.tscn")
+var level_1_scene = preload("res://levels/level_random.tscn")
 
 var is_playing = false
 var is_slow_mo = false
@@ -161,7 +162,7 @@ func _on_brick_hit_by_piece(brick):
 
 func _on_piece_exited_screen(piece):
 	add_points(1 * score_multiplier)
-	
+	piece.queue_free()
 	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
 		# game_over()
 		level_over()
@@ -169,7 +170,6 @@ func _on_piece_exited_screen(piece):
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
 	add_child(instance)
-	piece.queue_free()
 
 
 func start_slow_motion(weight):
@@ -186,7 +186,6 @@ func create_pieces(position: Vector2, num_pieces: int):
 	var count = min(num_pieces, MAX_PIECES)
 	for i in range(count):
 		var instance = piece_scene.instantiate()
-		# instance.connect("exited_screen", _on_piece_exited_screen)
 		# Must use call_deferred here otherwise the instance position will not be set correctly
 		instance.call_deferred("set_global_position", position)
 		# Apply explosion impulse
