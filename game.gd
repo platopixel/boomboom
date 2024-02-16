@@ -74,8 +74,10 @@ func set_high_score_on_config(new_high_score):
 func check_high_score():
 	var current_high_score = get_high_score_from_config()
 	if points > current_high_score:
+		var prev_high_score = current_high_score
 		high_score = points
 		$HUD.show_new_high_score(high_score)
+		$HUD.show_prev_high_score(prev_high_score)
 		# save new high score
 		set_high_score_on_config(high_score)
 	else:
@@ -165,7 +167,7 @@ func _on_piece_exited_screen(piece):
 	piece.queue_free()
 	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
 		# game_over()
-		level_over()
+		call_deferred("level_over")
 	
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256

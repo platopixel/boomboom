@@ -14,14 +14,13 @@ script/source = "extends RigidBody2D
 signal detonate
 signal hit_by_piece
 
-var area_hit
-
-var initial_position
-var hit_direction
+var area_hit: Vector2
+var initial_position: Vector2
+var hit_direction: Vector2
 
 # bricks are num_hits / hit_threshold
-@export var num_hits = 10 # initial hits
-@export var hit_threshold = randi_range(10, 100) # num hits before brick explodes
+@export var num_hits: int = 10 # initial hits
+@export var hit_threshold: int = randi_range(10, 100) # num hits before brick explodes
 
 
 func _ready():
@@ -29,6 +28,12 @@ func _ready():
 	$Sprite2D.get_material().set_shader_parameter(\"flashState\", 0)
 	$Label.text = str(num_hits) + \"/\" + str(hit_threshold)
 	add_to_group(\"brick\")
+
+
+func set_shader_params(flash_state):
+	var material: ShaderMaterial = $Sprite2D.material
+	if material and material is ShaderMaterial:
+		material.set_shader_parameter(\"maxFlashState\", flash_state)
 
 
 # Hit callback
@@ -40,6 +45,9 @@ func _on_area_2d_body_entered(body):
 	elif body.is_in_group(\"piece\"):
 		num_hits += 1
 		$Label.text = str(num_hits) + \"/\" + str(hit_threshold)
+		# Set shader params before running animation
+		var flash_state: float = float(num_hits) / float(hit_threshold)
+		set_shader_params(flash_state)
 		# Reset the animation so it flashes every time it's hit
 		$Sprite2D/AnimationPlayer.seek(0, true)
 		$Sprite2D/AnimationPlayer.play(\"brick_flash\")
@@ -51,19 +59,6 @@ func _on_AnimatedSprite2D_animation_finished():
 		emit_signal(\"detonate\", area_hit)
 	queue_free()
 
-
-# This was used when the Brick was an Area2D before I updated it to a rigidbody
-func _on_body_entered(body):
-	if body.is_in_group(\"missile\"):
-		body.sleeping = true
-		body.detonate()
-		area_hit = body.global_position
-		var animated_sprite = $AnimatedSprite2D
-		animated_sprite.play(\"flash_colors\")
-	elif body is RigidBody2D:
-		emit_signal(\"hit_by_piece\", self)
-
-
 func get_brick_width():
 	return $Sprite2D.texture.get_width() * $Sprite2D.scale.x
 "
@@ -73,6 +68,7 @@ resource_local_to_scene = true
 shader = ExtResource("5_8jgbb")
 shader_parameter/flashColor = Color(0.980392, 0.992157, 1, 1)
 shader_parameter/flashState = 1.0
+shader_parameter/maxFlashState = 1.0
 
 [sub_resource type="Animation" id="Animation_fudon"]
 tracks/0/type = "value"
@@ -158,5 +154,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 162
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

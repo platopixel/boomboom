@@ -15,7 +15,7 @@ func _ready():
 
 
 func level_over():
-	queue_free()
+	call_deferred("queue_free")
 
 
 func has_won():

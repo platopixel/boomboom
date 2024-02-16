@@ -39,6 +39,7 @@ resource_local_to_scene = true
 shader = ExtResource("1_fmfou")
 shader_parameter/flashColor = Color(0.980392, 0.992157, 1, 1)
 shader_parameter/flashState = 1.0
+shader_parameter/maxFlashState = 1.0
 
 [sub_resource type="Animation" id="Animation_fudon"]
 tracks/0/type = "value"
