@@ -10,6 +10,7 @@ absorbent = true
 
 [sub_resource type="GDScript" id="GDScript_defx2"]
 script/source = "extends RigidBody2D
+class_name Brick
 
 signal detonate
 signal hit_by_piece
@@ -29,6 +30,20 @@ func _ready():
 	$Label.text = str(num_hits) + \"/\" + str(hit_threshold)
 	add_to_group(\"brick\")
 
+
+func get_random_color_from_palette(alpha):
+	var color_black: Vector4 = Vector4(22.0, 23.0, 26.0, alpha)
+	var color_white: Vector4 = Vector4(250, 253, 255, alpha)
+	var color_yellow: Vector4 = Vector4(255, 209, 0, alpha)
+	
+	var colors: Dictionary = {
+		0: color_black,
+		1: color_white,
+		2: color_yellow,
+	}
+	var random: int = randi_range(0, 2)
+	return colors[random]
+	
 
 func set_shader_params(flash_state):
 	var material: ShaderMaterial = $Sprite2D.material
@@ -59,6 +74,7 @@ func _on_AnimatedSprite2D_animation_finished():
 		emit_signal(\"detonate\", area_hit)
 	queue_free()
 
+
 func get_brick_width():
 	return $Sprite2D.texture.get_width() * $Sprite2D.scale.x
 "
@@ -66,7 +82,7 @@ func get_brick_width():
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mgyre"]
 resource_local_to_scene = true
 shader = ExtResource("5_8jgbb")
-shader_parameter/flashColor = Color(0.980392, 0.992157, 1, 1)
+shader_parameter/flashColor = Color(1, 0.14902, 0.454902, 1)
 shader_parameter/flashState = 1.0
 shader_parameter/maxFlashState = 1.0
 

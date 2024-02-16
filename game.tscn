@@ -1,9 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://cm8jbdk7m22w2"]
+[gd_scene load_steps=16 format=3 uid="uid://cm8jbdk7m22w2"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_b1os8"]
 [ext_resource type="PackedScene" uid="uid://q2nd5efn3742" path="res://turret.tscn" id="2_csacs"]
-[ext_resource type="Shader" path="res://background.gdshader" id="3_qo4h0"]
-[ext_resource type="Texture2D" uid="uid://b2arwvtol4oj1" path="res://art/background.png" id="3_v46ps"]
 [ext_resource type="PackedScene" uid="uid://bd0ukv7s47y18" path="res://hud.tscn" id="5_q1fsr"]
 [ext_resource type="Script" path="res://Camera2D.gd" id="6_g4nsh"]
 [ext_resource type="Texture2D" uid="uid://cst73850qwdtc" path="res://art/pixelart_starfield.png" id="7_40vm3"]
@@ -21,9 +19,6 @@ size = Vector2(16, 1288)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gdw7x"]
 size = Vector2(16, 1296)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_614q2"]
-shader = ExtResource("3_qo4h0")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_batdm"]
 texture = ExtResource("7_40vm3")
@@ -373,15 +368,6 @@ shape = SubResource("RectangleShape2D_v4q6i")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightBarrier"]
 position = Vector2(720, 640)
 shape = SubResource("RectangleShape2D_gdw7x")
-
-[node name="Background" type="TextureRect" parent="."]
-visible = false
-z_index = -1
-material = SubResource("ShaderMaterial_614q2")
-offset_right = 720.0
-offset_bottom = 1280.0
-texture = ExtResource("3_v46ps")
-stretch_mode = 1
 
 [node name="HUD" parent="." instance=ExtResource("5_q1fsr")]
 

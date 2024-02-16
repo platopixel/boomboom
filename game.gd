@@ -10,8 +10,8 @@ var piece_scene = preload("res://piece.tscn")
 var explosion_scene = preload("res://explosion.tscn")
 var points_scene = preload("res://animated_points.tscn")
 var boundary_animation_scene = preload("res://boundary_animation.tscn")
-# var level_1_scene = preload("res://levels/level_1.tscn")
-var level_1_scene = preload("res://levels/level_random.tscn")
+var level_1_scene = preload("res://levels/level_1.tscn")
+# var level_1_scene = preload("res://levels/level_random.tscn")
 
 var is_playing = false
 var is_slow_mo = false
