@@ -35,7 +35,7 @@ func get_random_color_from_palette(alpha):
 	var color_black: Vector4 = Vector4(22.0, 23.0, 26.0, alpha)
 	var color_white: Vector4 = Vector4(250, 253, 255, alpha)
 	var color_yellow: Vector4 = Vector4(255, 209, 0, alpha)
-	
+
 	var colors: Dictionary = {
 		0: color_black,
 		1: color_white,
@@ -43,7 +43,7 @@ func get_random_color_from_palette(alpha):
 	}
 	var random: int = randi_range(0, 2)
 	return colors[random]
-	
+
 
 func set_shader_params(flash_state):
 	var material: ShaderMaterial = $Sprite2D.material

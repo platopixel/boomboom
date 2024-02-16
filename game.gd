@@ -168,7 +168,7 @@ func _on_piece_exited_screen(piece):
 	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
 		# game_over()
 		call_deferred("level_over")
-	
+
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
 	add_child(instance)
