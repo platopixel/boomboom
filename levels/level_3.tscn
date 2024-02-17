@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://ugi62odutksd"]
+
+[ext_resource type="Script" path="res://levels/level_2.gd" id="1_333t7"]
+[ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_ddim3"]
+[ext_resource type="Texture2D" uid="uid://uu631wvk5f3h" path="res://art/ui_background.png" id="3_e32be"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qj5pt"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_apugm"]
+radius = 11.3137
+height = 248.902
+
+[node name="Level3" type="Node2D"]
+script = ExtResource("1_333t7")
+
+[node name="Brick" parent="." instance=ExtResource("2_ddim3")]
+position = Vector2(360, 720)
+num_hits = 50
+hit_threshold = 100
+
+[node name="Brick2" parent="." instance=ExtResource("2_ddim3")]
+position = Vector2(560, 408)
+num_hits = 20
+hit_threshold = 40
+
+[node name="Brick3" parent="." instance=ExtResource("2_ddim3")]
+position = Vector2(162, 392)
+num_hits = 20
+hit_threshold = 40
+
+[node name="Brick4" parent="." instance=ExtResource("2_ddim3")]
+position = Vector2(368, 224)
+hit_threshold = 20
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(616, 664)
+rotation = 2.35619
+scale = Vector2(0.327031, 0.0720642)
+texture = ExtResource("3_e32be")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(616, 664)
+rotation = 0.785397
+shape = SubResource("CapsuleShape2D_apugm")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(104, 648)
+rotation = 0.785398
+scale = Vector2(0.327031, 0.0720642)
+texture = ExtResource("3_e32be")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(104, 648)
+rotation = -0.785398
+shape = SubResource("CapsuleShape2D_apugm")

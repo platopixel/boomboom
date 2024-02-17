@@ -15,4 +15,4 @@ func _on_area_entered(area):
 
 
 func _on_body_entered(body):
-	emit_signal("hit_by_explosion", self, body)
+	emit_signal("hit_by_explosion", body, self)

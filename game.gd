@@ -87,6 +87,10 @@ func check_high_score():
 
 
 func level_over():
+	var missiles = get_tree().get_nodes_in_group("missile")
+	for missile in missiles:
+		missile.queue_free()
+
 	var prev_level = current_level
 	if !current_level.has_won():
 		current_level.level_lost()
@@ -125,10 +129,10 @@ func reset_game_state():
 		point.queue_free()
 
 
-func _on_explosion_hit(explosion, body):
+func _on_explosion_hit(body, explosion):
 	if body.is_in_group("brick"):
 		$Camera2D.apply_shake()
-		_on_brick_explode(body.position, body.num_hits)
+		_on_brick_explode(body, explosion)
 		body.queue_free()
 
 
@@ -140,13 +144,13 @@ func _on_missile_detonate(position):
 	add_child(explosion)
 
 
-func _on_brick_explode(position, num_pieces):
+func _on_brick_explode(brick, explosion):
 	var points = points_scene.instantiate()
-	points.value = num_pieces
-	points.position = position
+	points.value = brick.num_hits
+	points.position = brick.position
 	add_child(points)
-	start_slow_motion(num_pieces)
-	create_pieces(position, num_pieces)
+	start_slow_motion(brick.num_hits)
+	create_pieces(brick, explosion)
 
 
 func add_points(num_points):
@@ -159,7 +163,7 @@ func _on_brick_hit_by_piece(brick):
 		score_multiplier += 1
 		$HUD.update_multiplier(score_multiplier)
 		# explode brick
-		_on_explosion_hit(brick, brick) # hack: passing brick as explosion param here
+		_on_explosion_hit(brick, null)
 
 
 func _on_piece_exited_screen(piece):
@@ -184,17 +188,42 @@ func start_slow_motion(weight):
 		is_slow_mo = true
 
 
-func create_pieces(position: Vector2, num_pieces: int):
-	var count = min(num_pieces, MAX_PIECES)
+func apply_explosion_impulse(piece, explosion):
+	var direction: Vector2 = (piece.global_position - explosion.global_position).normalized()
+	# var distance = piece.global_position.distance_to(explosion.position)
+	# var force_multiplier = max(0, 1 - distance / explosion_radius)
+	# Randomize the angle slightly
+	var angle_offset: float = randf_range(-10, 10)  # Random angle in degrees
+	# Convert angle offset from degrees to radians for Godot's rotation functions
+	angle_offset = deg_to_rad(angle_offset)
+	# Rotate the direction vector by the random angle offset
+	direction = direction.rotated(angle_offset)
+	var impulse_strength: int = 800
+	var impulse: Vector2 = direction * impulse_strength
+	print(impulse)
+	piece.apply_impulse(impulse, piece.position)
+
+
+func apply_explosion_central_impulse(piece):
+	var random_direction: Vector2 = Vector2(randf() * 2.0 - 1.0, randf() * 2.0 - 1.0).normalized()
+	var impulse_strength: int = 950
+	var impulse = random_direction * impulse_strength
+	piece.apply_central_impulse(impulse)
+
+
+func create_pieces(brick, explosion):
+	var count: int = min(brick.num_hits, MAX_PIECES)
 	for i in range(count):
 		var instance = piece_scene.instantiate()
+		var position_offset: float = randf_range(-10, 10)  # Random posish offset
 		# Must use call_deferred here otherwise the instance position will not be set correctly
-		instance.call_deferred("set_global_position", position)
-		# Apply explosion impulse
-		var random_direction = Vector2(randf() * 2.0 - 1.0, randf() * 2.0 - 1.0).normalized()
-		var impulse_strength = 950  # Adjust the strength as needed
-		var impulse = random_direction * impulse_strength
-		instance.apply_central_impulse(impulse)
+		instance.call_deferred("set_global_position", Vector2(brick.position.x + position_offset, brick.position.y + position_offset))
+		if explosion:
+			# TODO: directional piece explosions isn't working right
+			# apply_explosion_impulse(instance, explosion)
+			apply_explosion_central_impulse(instance)
+		else:
+			apply_explosion_central_impulse(instance)
 		# add scene
 		call_deferred("add_child", instance)
 
