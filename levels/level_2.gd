@@ -1,6 +1,6 @@
 extends Level
 
-@export var next_level_scene: PackedScene = preload("res://levels/level_random.tscn")
+@export var next_level_scene: PackedScene = preload("res://levels/level_3.tscn")
 
 var brick1
 var brick2

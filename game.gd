@@ -188,23 +188,20 @@ func start_slow_motion(weight):
 		is_slow_mo = true
 
 
-func apply_explosion_impulse(piece, explosion):
+func apply_directional_explosion_impulse(piece, explosion):
 	var direction: Vector2 = (piece.global_position - explosion.global_position).normalized()
-	# var distance = piece.global_position.distance_to(explosion.position)
-	# var force_multiplier = max(0, 1 - distance / explosion_radius)
 	# Randomize the angle slightly
 	var angle_offset: float = randf_range(-10, 10)  # Random angle in degrees
 	# Convert angle offset from degrees to radians for Godot's rotation functions
 	angle_offset = deg_to_rad(angle_offset)
 	# Rotate the direction vector by the random angle offset
 	direction = direction.rotated(angle_offset)
-	var impulse_strength: int = 800
+	var impulse_strength: int = randi_range(600, 900)
 	var impulse: Vector2 = direction * impulse_strength
-	print(impulse)
-	piece.apply_impulse(impulse, piece.position)
+	piece.apply_central_impulse(impulse)
 
 
-func apply_explosion_central_impulse(piece):
+func apply_random_explosion_impulse(piece):
 	var random_direction: Vector2 = Vector2(randf() * 2.0 - 1.0, randf() * 2.0 - 1.0).normalized()
 	var impulse_strength: int = 950
 	var impulse = random_direction * impulse_strength
@@ -215,15 +212,13 @@ func create_pieces(brick, explosion):
 	var count: int = min(brick.num_hits, MAX_PIECES)
 	for i in range(count):
 		var instance = piece_scene.instantiate()
-		var position_offset: float = randf_range(-10, 10)  # Random posish offset
-		# Must use call_deferred here otherwise the instance position will not be set correctly
-		instance.call_deferred("set_global_position", Vector2(brick.position.x + position_offset, brick.position.y + position_offset))
+		var position_offset_x: float = randf_range(-20, 20)  # Random posish offset
+		var position_offset_y: float = randf_range(-20, 20)  # Random posish offset
+		instance.set_global_position(Vector2(brick.position.x + position_offset_x, brick.position.y + position_offset_y))
 		if explosion:
-			# TODO: directional piece explosions isn't working right
-			# apply_explosion_impulse(instance, explosion)
-			apply_explosion_central_impulse(instance)
+			apply_directional_explosion_impulse(instance, explosion)
 		else:
-			apply_explosion_central_impulse(instance)
+			apply_random_explosion_impulse(instance)
 		# add scene
 		call_deferred("add_child", instance)
 

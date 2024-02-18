@@ -1,12 +1,10 @@
 extends RigidBody2D
 
-@export var impulse_strength = 1000
+@export var impulse_strength = 700
 
 signal detonate_missile
 
 func _ready():
-	$AnimatedSprite2D.hide()
-	$AnimatedSprite2D.connect("animation_finished", _on_AnimatedSprite2D_animation_finished)
 	$Sprite2D/AnimationPlayer.connect("animation_finished", _on_flash_animation_finished)
 	self.add_to_group("missile")
 
@@ -20,8 +18,6 @@ func _on_flash_animation_finished(animation_name):
 	self.collision_mask = 0
 	self.gravity_scale = 0
 	$Sprite2D.hide()
-	# $AnimatedSprite2D.show()
-	# $AnimatedSprite2D.play("explosion")
 	emit_signal("detonate_missile", position)
 	queue_free()
 

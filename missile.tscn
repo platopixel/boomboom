@@ -1,14 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bpueltdbc6bcx"]
+[gd_scene load_steps=10 format=3 uid="uid://bpueltdbc6bcx"]
 
 [ext_resource type="Texture2D" uid="uid://b3wr5gofakov0" path="res://art/missile.png" id="1_woc2f"]
 [ext_resource type="Script" path="res://missile.gd" id="1_woeqj"]
 [ext_resource type="Shader" path="res://missile.gdshader" id="2_t3nd3"]
-[ext_resource type="Texture2D" uid="uid://caqeqrmbf6mq8" path="res://art/sprite_explosion0.png" id="4_3iq6o"]
-[ext_resource type="Texture2D" uid="uid://b5ewjgpexojjc" path="res://art/sprite_explosion1.png" id="5_6p2wg"]
-[ext_resource type="Texture2D" uid="uid://qjarvsttie8o" path="res://art/sprite_explosion2.png" id="6_tq4nw"]
-[ext_resource type="Texture2D" uid="uid://dqhfqj1b5q8m8" path="res://art/sprite_explosion3.png" id="7_5y66x"]
-[ext_resource type="Texture2D" uid="uid://b5ce7yak7tkxr" path="res://art/sprite_explosion4.png" id="8_2ffdt"]
-[ext_resource type="Texture2D" uid="uid://5s8ftg0eb5sw" path="res://art/sprite_explosion5.png" id="9_7hc68"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wvgbp"]
 absorbent = true
@@ -59,38 +53,6 @@ _data = {
 radius = 4.0
 height = 32.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_q50tl"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_3iq6o")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_6p2wg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_tq4nw")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_5y66x")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_2ffdt")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_7hc68")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_tq4nw")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_3iq6o")
-}],
-"loop": false,
-"name": &"explosion",
-"speed": 40.0
-}]
-
 [node name="Missile" type="RigidBody2D"]
 mass = 0.69
 physics_material_override = SubResource("PhysicsMaterial_wvgbp")
@@ -109,8 +71,3 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_tvd37")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(2.5, 2.5)
-sprite_frames = SubResource("SpriteFrames_q50tl")
-animation = &"explosion"
