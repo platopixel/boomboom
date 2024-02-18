@@ -1,25 +1,27 @@
 extends Node2D
 
-var NUM_BRICKS = 5
-var NUM_PIECES = 3
-var MAX_PIECES = 100 # starts stuttering around 200 or so I think
+var NUM_BRICKS: int = 5
+var NUM_PIECES: int = 3
+var MAX_PIECES: int = 100 # starts stuttering around 200 or so I think
 
-var missile_scene = preload("res://missile.tscn")
-var brick_scene = preload("res://brick.tscn")
-var piece_scene = preload("res://piece.tscn")
-var explosion_scene = preload("res://explosion.tscn")
-var points_scene = preload("res://animated_points.tscn")
-var boundary_animation_scene = preload("res://boundary_animation.tscn")
-var level_1_scene = preload("res://levels/level_1.tscn")
+var missile_scene: PackedScene = preload("res://missile.tscn")
+var brick_scene: PackedScene = preload("res://brick.tscn")
+var piece_scene: PackedScene = preload("res://piece.tscn")
+var explosion_scene: PackedScene = preload("res://explosion.tscn")
+var points_scene: PackedScene = preload("res://animated_points.tscn")
+var boundary_animation_scene: PackedScene = preload("res://boundary_animation.tscn")
+var smoke_animation_scene: PackedScene = preload("res://smoke_animation.tscn")
+# Starting level
+var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
 # var level_1_scene = preload("res://levels/level_random.tscn")
 
-var is_playing = false
-var is_slow_mo = false
-var points = 0
-var high_score = 0
-var score_multiplier = 1
+var is_playing: bool = false
+var is_slow_mo: bool = false
+var points: int = 0
+var high_score: int = 0
+var score_multiplier: int = 1
 
-var current_level
+var current_level: Node2D
 
 
 # This is the main game scene where the gameplay takes place
@@ -72,9 +74,9 @@ func set_high_score_on_config(new_high_score):
 
 
 func check_high_score():
-	var current_high_score = get_high_score_from_config()
+	var current_high_score: int = get_high_score_from_config()
 	if points > current_high_score:
-		var prev_high_score = current_high_score
+		var prev_high_score: int = current_high_score
 		high_score = points
 		$HUD.show_new_high_score(high_score)
 		$HUD.show_prev_high_score(prev_high_score)
@@ -87,11 +89,11 @@ func check_high_score():
 
 
 func level_over():
-	var missiles = get_tree().get_nodes_in_group("missile")
+	var missiles: Array[Node] = get_tree().get_nodes_in_group("missile")
 	for missile in missiles:
 		missile.queue_free()
 
-	var prev_level = current_level
+	var prev_level: Node2D = current_level
 	if !current_level.has_won():
 		current_level.level_lost()
 	elif current_level.next_level:
@@ -138,17 +140,25 @@ func _on_explosion_hit(body, explosion):
 
 func _on_missile_detonate(position):
 	# instantiate explosion scene
-	var explosion = explosion_scene.instantiate()
+	var explosion: Area2D = explosion_scene.instantiate()
 	explosion.connect("hit_by_explosion", _on_explosion_hit)
 	explosion.position = position
 	add_child(explosion)
 
 
+func show_smoke_animation(position):
+	var smoke_animation: AnimatedSprite2D = smoke_animation_scene.instantiate()
+	smoke_animation.position = position
+	add_child(smoke_animation)
+
+
 func _on_brick_explode(brick, explosion):
-	var points = points_scene.instantiate()
+	var points: Marker2D = points_scene.instantiate()
 	points.value = brick.num_hits
 	points.position = brick.position
 	add_child(points)
+	# show smoke animation
+	show_smoke_animation(brick.position)
 	start_slow_motion(brick.num_hits)
 	create_pieces(brick, explosion)
 

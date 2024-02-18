@@ -2,3 +2,4 @@
 .godot/
 **/*.tmp
 .vscode/
+.DS_Store
