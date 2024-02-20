@@ -6,6 +6,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_raagk"]
 
 [node name="Turret" type="Node2D"]
+z_index = 1
 script = ExtResource("1_vadcp")
 metadata/_edit_group_ = true
 
