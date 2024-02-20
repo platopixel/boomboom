@@ -12,11 +12,12 @@ var points_scene: PackedScene = preload("res://animated_points.tscn")
 var boundary_animation_scene: PackedScene = preload("res://boundary_animation.tscn")
 var smoke_animation_scene: PackedScene = preload("res://smoke_animation.tscn")
 # Starting level
-var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
-# var level_1_scene = preload("res://levels/level_random.tscn")
+# var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
+var level_1_scene = preload("res://levels/level_random.tscn")
 
 var is_playing: bool = false
 var is_slow_mo: bool = false
+var is_missile_fired: bool = false # TODO: missile class should probably maintain its own state
 var points: int = 0
 var high_score: int = 0
 var score_multiplier: int = 1
@@ -179,9 +180,12 @@ func _on_brick_hit_by_piece(brick):
 func _on_piece_exited_screen(piece):
 	add_points(1 * score_multiplier)
 	piece.queue_free()
-	if (get_tree().get_nodes_in_group("brick").size() == 0) && (get_tree().get_nodes_in_group("piece").size() == 1):
-		# game_over()
-		call_deferred("level_over")
+	if get_tree().get_nodes_in_group("piece").size() == 1:
+		score_multiplier = 1
+		$HUD.update_multiplier(score_multiplier)
+		if get_tree().get_nodes_in_group("brick").size() == 0:
+			# game_over()
+			call_deferred("level_over")
 
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
@@ -235,14 +239,20 @@ func create_pieces(brick, explosion):
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and is_playing:
-		score_multiplier = 1
-		$HUD.update_multiplier(score_multiplier)
-		# Mouse clicked - instantiate and send scene
-		var instance = missile_scene.instantiate()
-		instance.connect("detonate_missile", _on_missile_detonate)
-		add_child(instance)
-		instance.global_position = Vector2(get_viewport_rect().size.x / 2, 80)
-		send_along_path(instance, event.global_position)
+		if is_missile_fired:
+			# detonate missile
+			_on_missile_detonate(event.global_position)
+			is_missile_fired = false
+		else:
+			# is_missile_fired = true
+			score_multiplier = 1
+			$HUD.update_multiplier(score_multiplier)
+			# Mouse clicked - instantiate and send scene
+			var instance = missile_scene.instantiate()
+			instance.connect("detonate_missile", _on_missile_detonate)
+			add_child(instance)
+			instance.global_position = Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y - 110)
+			send_along_path(instance, event.global_position)
 
 
 func send_along_path(instance, destination):

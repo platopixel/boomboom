@@ -56,3 +56,9 @@ func update_points(points):
 
 func update_multiplier(multiplier):
 	$PanelContainer/HBoxContainer/Label2.text = str(multiplier) + "x"
+
+var color_black: Vector4 = Vector4(22.0, 23.0, 26.0, 1.0)
+var color_white: Vector4 = Vector4(250, 253, 255, 1.0)
+var color_yellow: Vector4 = Vector4(255, 209, 0, 1.0)
+var color_purple: Vector4 = Vector4(67, 0, 103, 1.0)
+var color_plum: Vector4 = Vector4(148, 33, 106, 1.0)
