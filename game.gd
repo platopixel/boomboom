@@ -12,8 +12,8 @@ var points_scene: PackedScene = preload("res://animated_points.tscn")
 var boundary_animation_scene: PackedScene = preload("res://boundary_animation.tscn")
 var smoke_animation_scene: PackedScene = preload("res://smoke_animation.tscn")
 # Starting level
-# var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
-var level_1_scene = preload("res://levels/level_random.tscn")
+var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
+# var level_1_scene = preload("res://levels/level_random.tscn")
 
 var is_playing: bool = false
 var is_slow_mo: bool = false
