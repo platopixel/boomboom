@@ -2,12 +2,12 @@ extends Level
 
 @export var next_level_scene: PackedScene = preload("res://levels/level_random.tscn")
 
-var brick1
-var brick2
+var brick1: RigidBody2D
+var brick2: RigidBody2D
 
 func _ready():
 	next_level = next_level_scene
-	var bricks = get_tree().get_nodes_in_group("brick")
+	var bricks: Array[Node] = get_tree().get_nodes_in_group("brick")
 	for brick in bricks:
 		brick.connect("hit_by_piece", _on_hit_by_piece)
 

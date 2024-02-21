@@ -19,6 +19,9 @@ func show_message(text):
 	$Message.text = text
 	$Message.show()
 
+func hide_message():
+	$Message.hide()
+
 func show_game_over():
 	$MultiplierLabel.hide()
 	$ResetButton.hide()

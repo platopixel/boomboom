@@ -21,6 +21,7 @@ var is_missile_fired: bool = false # TODO: missile class should probably maintai
 var points: int = 0
 var high_score: int = 0
 var score_multiplier: int = 1
+var is_end_level_timer: bool = false
 
 var current_level: Node2D
 
@@ -91,8 +92,15 @@ func check_high_score():
 
 func level_over():
 	var missiles: Array[Node] = get_tree().get_nodes_in_group("missile")
+	var pieces: Array[Node] = get_tree().get_nodes_in_group("piece")
 	for missile in missiles:
 		missile.queue_free()
+	for piece in pieces:
+		piece.queue_free()
+
+	score_multiplier = 1
+	$HUD.update_multiplier(score_multiplier)
+	$HUD.hide_message()
 
 	var prev_level: Node2D = current_level
 	if !current_level.has_won():
@@ -177,15 +185,28 @@ func _on_brick_hit_by_piece(brick):
 		_on_explosion_hit(brick, null)
 
 
+func start_end_level_timer():
+	var delay = 4.0  # Delay in seconds
+	is_end_level_timer = true
+	# var timer: SceneTreeTimer = get_tree().create_timer(delay)
+	await get_tree().create_timer(delay).timeout
+	level_over()
+	is_end_level_timer = false
+
+
 func _on_piece_exited_screen(piece):
 	add_points(1 * score_multiplier)
 	piece.queue_free()
-	if get_tree().get_nodes_in_group("piece").size() == 1:
-		score_multiplier = 1
-		$HUD.update_multiplier(score_multiplier)
-		if get_tree().get_nodes_in_group("brick").size() == 0:
-			# game_over()
-			call_deferred("level_over")
+	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()
+	var num_pieces: int = get_tree().get_nodes_in_group("piece").size()
+	if num_bricks == 0:
+		if !is_end_level_timer:
+			# start end level timer to account for stuck pieces
+			start_end_level_timer()
+
+		if num_pieces == 1:
+			$HUD.show_message("Nice!")
+
 
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
