@@ -2,9 +2,9 @@ extends Level
 
 var brick_scene = preload("res://brick.tscn")
 
-@export var NUM_BRICKS = 10
+@export var NUM_BRICKS = 7
 @export var Y_TOP_BUFFER = 200
-@export var Y_BOTTOM_BUFFER = 300
+@export var Y_BOTTOM_BUFFER = 350
 @export var X_BUFFER = 20
 
 # Called when the node enters the scene tree for the first time.

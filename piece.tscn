@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://ckkbg7gk70oli"]
 
 [ext_resource type="Shader" path="res://brick.gdshader" id="1_fmfou"]
-[ext_resource type="Texture2D" uid="uid://ds53ifs50p0jt" path="res://art/orb.png" id="2_ni8fj"]
+[ext_resource type="Texture2D" uid="uid://oovhwhkpotrm" path="res://art/orb_brown.png" id="2_x216v"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i4qta"]
 bounce = 0.5
@@ -90,7 +90,7 @@ shape = SubResource("CircleShape2D_lkal3")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_2jpwd")
 scale = Vector2(0.36, 0.36)
-texture = ExtResource("2_ni8fj")
+texture = ExtResource("2_x216v")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
