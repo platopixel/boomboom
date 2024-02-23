@@ -4,6 +4,7 @@ class_name Level
 signal hit_by_piece
 
 var next_level
+var points: int = 0
 
 func has_won():
 	print('has_won called on base level class')
@@ -25,4 +26,8 @@ func level_over():
 
 func level_lost():
 	print('lost_level called in base Level class')
+	pass
+
+func level_finished():
+	print('level_finished called in base level class')
 	pass

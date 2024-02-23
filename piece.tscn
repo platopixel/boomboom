@@ -16,6 +16,8 @@ signal exited_screen
 var MIN_ANIMATION_DURATION = 0.5
 var MAX_ANIMATION_DURATION = 2.0
 
+var num_points: int = 1
+
 func _ready():
 	# godot wasn't respecting the initial flashState value so manually set it here
 	$Sprite2D.get_material().set_shader_parameter(\"flashState\", 0)

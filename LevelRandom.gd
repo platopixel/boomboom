@@ -2,19 +2,14 @@ extends Level
 
 var brick_scene = preload("res://brick.tscn")
 
-@export var NUM_BRICKS = 7
-@export var Y_TOP_BUFFER = 200
-@export var Y_BOTTOM_BUFFER = 350
-@export var X_BUFFER = 20
+@export var NUM_BRICKS: int = 7
+@export var Y_TOP_BUFFER: int = 200
+@export var Y_BOTTOM_BUFFER: int = 350
+@export var X_BUFFER: int = 20
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	generate_bricks(NUM_BRICKS)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 
 # Randomized brick placement

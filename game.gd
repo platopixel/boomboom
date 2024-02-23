@@ -19,6 +19,7 @@ var is_playing: bool = false
 var is_slow_mo: bool = false
 var is_missile_fired: bool = false # TODO: missile class should probably maintain its own state
 var points: int = 0
+var starting_points = 0
 var high_score: int = 0
 var score_multiplier: int = 1
 var is_end_level_timer: bool = false
@@ -104,14 +105,27 @@ func level_over():
 
 	var prev_level: Node2D = current_level
 	if !current_level.has_won():
-		current_level.level_lost()
+		await current_level.level_lost()
+		reset_current_level_state()
 	elif current_level.next_level:
+		await prev_level.level_over()
+		starting_points = points
 		current_level = current_level.next_level.instantiate()
-		prev_level.level_over()
 		current_level.connect("hit_by_piece", _on_brick_hit_by_piece)
 		add_child(current_level)
 	else:
 		game_over()
+
+
+func reset_current_level_state():
+	var current_level_scene: PackedScene = load(current_level.scene_file_path)
+	current_level.queue_free()
+	current_level = current_level_scene.instantiate()
+	add_child(current_level)
+	points = starting_points
+	$HUD.update_points(points)
+
+
 
 
 func game_over():
@@ -123,6 +137,7 @@ func game_over():
 func reset_game_state():
 	add_points(-(points))
 	points = 0
+	starting_points = 0
 	if current_level:
 		current_level.level_over()
 	# clear old pieces and bricks
@@ -174,6 +189,8 @@ func _on_brick_explode(brick, explosion):
 
 func add_points(num_points):
 	points += num_points
+	if current_level:
+		current_level.points += num_points
 	$HUD.update_points(points)
 
 
@@ -195,18 +212,18 @@ func start_end_level_timer():
 
 
 func _on_piece_exited_screen(piece):
-	add_points(1 * score_multiplier)
+	add_points(piece.num_points * score_multiplier)
 	piece.queue_free()
 	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()
 	var num_pieces: int = get_tree().get_nodes_in_group("piece").size()
 	if num_bricks == 0:
 		if !is_end_level_timer:
+			current_level.level_finished()
 			# start end level timer to account for stuck pieces
 			start_end_level_timer()
 
 		if num_pieces == 1:
-			$HUD.show_message("Nice!")
-
+			$HUD.show_message("CLEAR")
 
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
