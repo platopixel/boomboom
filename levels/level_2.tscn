@@ -16,16 +16,20 @@ script = ExtResource("1_q3dod")
 [node name="Brick" parent="." instance=ExtResource("2_57i8s")]
 position = Vector2(56, 504)
 num_hits = 5
-hit_threshold = 6
+hit_threshold = 10
 
 [node name="Brick2" parent="." instance=ExtResource("2_57i8s")]
 position = Vector2(56, 720)
-num_hits = 1
-hit_threshold = 5
+hit_threshold = 20
 
 [node name="Brick3" parent="." instance=ExtResource("2_57i8s")]
 position = Vector2(56, 944)
-hit_threshold = 20
+num_hits = 20
+hit_threshold = 40
+
+[node name="Brick4" parent="." instance=ExtResource("2_57i8s")]
+position = Vector2(480, 360)
+hit_threshold = 10
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(-40, 8)
