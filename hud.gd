@@ -51,7 +51,7 @@ func update_high_score(points):
 
 
 func show_new_high_score(score):
-	$NewHighScoreLabel.text = "New High Score! \n" + str(score)
+	$NewHighScoreLabel.text = "[center][wave amp=50.0 freq=5.0 connected=1]New High Score! \n" + str(score) + "[/wave][/center]"
 	$NewHighScoreLabel.show()
 
 

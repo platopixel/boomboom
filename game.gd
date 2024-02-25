@@ -126,8 +126,6 @@ func reset_current_level_state():
 	$HUD.update_points(points)
 
 
-
-
 func game_over():
 	is_playing = false
 	check_high_score()
