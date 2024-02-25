@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwosu8qxwfsgk"]
+[gd_scene load_steps=7 format=3 uid="uid://cwosu8qxwfsgk"]
 
 [ext_resource type="Script" path="res://Level1.gd" id="1_ux35k"]
 [ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_dwocf"]
@@ -9,6 +9,9 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gwk2e"]
 radius = 16.0
 height = 208.0
+
+[sub_resource type="SystemFont" id="SystemFont_a2yg4"]
+font_names = PackedStringArray("Lucida Console")
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_ux35k")
@@ -36,14 +39,17 @@ position = Vector2(552, 840)
 scale = Vector2(0.288889, 0.0962194)
 texture = ExtResource("3_m8twg")
 
-[node name="LevelScoreLabel" type="Label" parent="."]
+[node name="LevelScoreLabel" type="RichTextLabel" parent="."]
 offset_left = 136.0
 offset_top = 449.0
 offset_right = 520.0
 offset_bottom = 689.0
-theme_override_font_sizes/font_size = 42
-horizontal_alignment = 2
-vertical_alignment = 1
+theme_override_colors/default_color = Color(0.964706, 0.909804, 0.878431, 1)
+theme_override_colors/font_outline_color = Color(0.603922, 0.301961, 0.462745, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = SubResource("SystemFont_a2yg4")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
 
 [node name="RestartLevelButton" type="Button" parent="."]
 offset_left = 256.0

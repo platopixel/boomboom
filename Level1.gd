@@ -19,16 +19,29 @@ func _ready():
 	$RestartLevelButton.hide()
 
 
+func show_score():
+	# Define a format string with placeholder '%s'
+	var format_string: String = "Your score: [color=%s]" + str(points) + "[/color]\nWinning Score: " + str(winning_score)
+	# Using the '%' operator, the placeholder is replaced with the desired value
+	var actual_string: String
+	if points < winning_score:
+		actual_string = format_string % "red"
+	else:
+		actual_string = format_string % "green"
+
+	$LevelScoreLabel.text = actual_string
+	$LevelScoreLabel.show()
+
+
 # Called when the last brick explodes
 func level_finished():
-	$LevelScoreLabel.text = "Your score: " + str(points) + "\nWinning Score: " + str(winning_score) + "\nMax Score: " + str(max_score)
-	$LevelScoreLabel.show()
+	show_score()
 
 
 func level_over():
-	$LevelScoreLabel.show()
-	$RestartLevelButton.show()
-	await get_tree().create_timer(1.0).timeout
+	show_score()
+	# $RestartLevelButton.show()
+	await get_tree().create_timer(2.0).timeout
 	call_deferred("queue_free")
 
 
@@ -37,9 +50,8 @@ func has_won():
 
 
 func level_lost():
-	$LevelScoreLabel.text = "Your score: " + str(points) + "\nWinning Score: " + str(winning_score) + "\nMax Score: " + str(max_score)
-	$LevelScoreLabel.show()
-	await get_tree().create_timer(3.0).timeout
+	show_score()
+	await get_tree().create_timer(1.0).timeout
 
 
 func _on_restart_level_button_pressed() -> void:

@@ -121,6 +121,7 @@ func reset_current_level_state():
 	var current_level_scene: PackedScene = load(current_level.scene_file_path)
 	current_level.queue_free()
 	current_level = current_level_scene.instantiate()
+	current_level.connect("hit_by_piece", _on_brick_hit_by_piece)
 	add_child(current_level)
 	points = starting_points
 	$HUD.update_points(points)
@@ -216,12 +217,12 @@ func _on_piece_exited_screen(piece):
 	var num_pieces: int = get_tree().get_nodes_in_group("piece").size()
 	if num_bricks == 0:
 		if !is_end_level_timer:
-			current_level.level_finished()
 			# start end level timer to account for stuck pieces
 			start_end_level_timer()
 
 		if num_pieces == 1:
 			$HUD.show_message("CLEAR")
+			current_level.level_finished()
 
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
