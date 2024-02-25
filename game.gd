@@ -176,10 +176,6 @@ func show_smoke_animation(position):
 
 
 func _on_brick_explode(brick, explosion):
-	var points: Marker2D = points_scene.instantiate()
-	points.value = brick.num_hits
-	points.position = brick.position
-	add_child(points)
 	# show smoke animation
 	show_smoke_animation(brick.position)
 	start_slow_motion(brick.num_hits)
@@ -210,7 +206,15 @@ func start_end_level_timer():
 	is_end_level_timer = false
 
 
+func show_animated_points(piece):
+	var points: Marker2D = points_scene.instantiate()
+	points.value = piece.num_points * score_multiplier
+	points.position = piece.position
+	add_child(points)
+
+
 func _on_piece_exited_screen(piece):
+	show_animated_points(piece)
 	add_points(piece.num_points * score_multiplier)
 	piece.queue_free()
 	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()

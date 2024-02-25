@@ -1,14 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://cwosu8qxwfsgk"]
+[gd_scene load_steps=8 format=3 uid="uid://cwosu8qxwfsgk"]
 
 [ext_resource type="Script" path="res://Level1.gd" id="1_ux35k"]
 [ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_dwocf"]
 [ext_resource type="Texture2D" uid="uid://uu631wvk5f3h" path="res://art/ui_background.png" id="3_m8twg"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s4j28"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kver3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gwk2e"]
 radius = 16.0
-height = 208.0
+height = 236.133
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_aia48"]
 
 [sub_resource type="SystemFont" id="SystemFont_a2yg4"]
 font_names = PackedStringArray("Lucida Console")
@@ -27,7 +29,7 @@ num_hits = 1
 hit_threshold = 2
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_s4j28")
+physics_material_override = SubResource("PhysicsMaterial_kver3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(552, 840)
@@ -36,7 +38,22 @@ shape = SubResource("CapsuleShape2D_gwk2e")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 position = Vector2(552, 840)
-scale = Vector2(0.288889, 0.0962194)
+scale = Vector2(0.311111, 0.0962194)
+texture = ExtResource("3_m8twg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-424, -152)
+physics_material_override = SubResource("PhysicsMaterial_aia48")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(560, 771)
+rotation = -1.0472
+shape = SubResource("CapsuleShape2D_gwk2e")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(558.384, 770.067)
+rotation = 0.523598
+scale = Vector2(0.314062, 0.0962194)
 texture = ExtResource("3_m8twg")
 
 [node name="LevelScoreLabel" type="RichTextLabel" parent="."]

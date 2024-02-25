@@ -21,13 +21,13 @@ func _ready():
 
 func show_score():
 	# Define a format string with placeholder '%s'
-	var format_string: String = "Your score: [color=%s]" + str(points) + "[/color]\nWinning Score: " + str(winning_score)
+	var format_string: String = "[center]%s[/center]\n[right]Your score: [color=%s]" + str(points) + "[/color]\nWinning Score: " + str(winning_score) + "[/right]"
 	# Using the '%' operator, the placeholder is replaced with the desired value
 	var actual_string: String
 	if points < winning_score:
-		actual_string = format_string % "red"
+		actual_string = format_string % ["[wave amp=50.0 freq=5.0 connected=1]Try Again[/wave]", "red"]
 	else:
-		actual_string = format_string % "green"
+		actual_string = format_string % ["[rainbow freq=1.0 sat=0.8 val=0.8]You Win![/rainbow]", "green"]
 
 	$LevelScoreLabel.text = actual_string
 	$LevelScoreLabel.show()
