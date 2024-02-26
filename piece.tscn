@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://oovhwhkpotrm" path="res://art/orb_brown.png" id="2_x216v"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i4qta"]
+friction = 0.0
 bounce = 0.5
 
 [sub_resource type="GDScript" id="GDScript_6b2e7"]
