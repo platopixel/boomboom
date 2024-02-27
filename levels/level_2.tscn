@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://levels/level_2.gd" id="1_q3dod"]
 [ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_57i8s"]
-[ext_resource type="Texture2D" uid="uid://uu631wvk5f3h" path="res://art/ui_background.png" id="3_3ceqe"]
+[ext_resource type="Texture2D" uid="uid://dospgq0r2oqwn" path="res://art/barrier.png" id="3_hnqrv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oi3ll"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0sgnr"]
-radius = 11.3137
-height = 720.0
+radius = 15.9998
+height = 640.0
 
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_q3dod")
@@ -36,12 +36,11 @@ position = Vector2(-40, 8)
 physics_material_override = SubResource("PhysicsMaterial_oi3ll")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(216, 720)
+position = Vector2(224, 744)
 rotation = 3.14159
 shape = SubResource("CapsuleShape2D_0sgnr")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
-position = Vector2(216, 722.961)
-rotation = 1.57079
-scale = Vector2(0.993529, 0.0631402)
-texture = ExtResource("3_3ceqe")
+position = Vector2(224, 744)
+scale = Vector2(0.496765, 0.772947)
+texture = ExtResource("3_hnqrv")
