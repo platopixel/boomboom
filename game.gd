@@ -185,7 +185,7 @@ func _on_brick_explode(brick, explosion):
 func add_points(num_points):
 	points += num_points
 	if current_level:
-		current_level.points += num_points
+		current_level.add_points(num_points)
 	$HUD.update_points(points)
 
 
@@ -229,7 +229,7 @@ func _on_piece_exited_screen(piece):
 			current_level.level_finished()
 
 	var instance = boundary_animation_scene.instantiate()
-	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 256) # HUD is 256
+	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 100)
 	add_child(instance)
 
 

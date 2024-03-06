@@ -5,11 +5,13 @@ extends Level
 var brick1: RigidBody2D
 var brick2: RigidBody2D
 
-@export var max_score: int = 6
-@export var winning_score: int = 6
+@export var MAX_SCORE: int = 6
+@export var WINNING_SCORE: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	max_score = MAX_SCORE
+	winning_score = WINNING_SCORE
 	next_level = next_level_scene
 	brick1 = $Brick
 	brick2 = $Brick2
@@ -17,6 +19,10 @@ func _ready():
 	brick2.connect("hit_by_piece", _on_hit_by_piece)
 	$LevelScoreLabel.hide()
 	$RestartLevelButton.hide()
+
+
+func add_points(num_points):
+	points += maxi(num_points, 0)
 
 
 func show_score():
@@ -46,7 +52,7 @@ func level_over():
 
 
 func has_won():
-	return points == max_score
+	return points >= WINNING_SCORE
 
 
 func level_lost():

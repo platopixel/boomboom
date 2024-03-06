@@ -9,7 +9,7 @@ shader = ExtResource("3_v2rku")
 
 [sub_resource type="Gradient" id="Gradient_flxjq"]
 offsets = PackedFloat32Array(0, 0.993443)
-colors = PackedColorArray(0.262745, 0, 0.403922, 1, 0.580392, 0.129412, 0.415686, 1)
+colors = PackedColorArray(0.262745, 0, 0.403922, 0, 0.580392, 0.129412, 0.415686, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_3cvgd"]
 gradient = SubResource("Gradient_flxjq")
@@ -55,38 +55,18 @@ theme_override_colors/font_hover_color = Color(1, 0.14902, 0.454902, 1)
 theme_override_font_sizes/font_size = 29
 text = "Start Game"
 
-[node name="PointsLabel" type="Label" parent="."]
-visible = false
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -324.0
-offset_top = -67.0
-offset_right = 324.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.980392, 0.992157, 1, 1)
-theme_override_colors/font_outline_color = Color(0.0627451, 0.823529, 0.458824, 1)
-theme_override_font_sizes/font_size = 48
-text = "Points: 0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="ResetButton" type="Button" parent="."]
-offset_left = 568.0
-offset_top = 24.0
-offset_right = 656.0
-offset_bottom = 48.0
+offset_left = 520.0
+offset_top = 56.0
+offset_right = 608.0
+offset_bottom = 87.0
 text = "Reset"
 
 [node name="HighScoreLabel" type="Label" parent="."]
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 186.0
-offset_bottom = 46.0
+offset_left = 72.0
+offset_top = 55.0
+offset_right = 242.0
+offset_bottom = 85.0
 theme_override_fonts/font = ExtResource("2_335u5")
 theme_override_font_sizes/font_size = 24
 text = "High Score: 0"
@@ -117,40 +97,27 @@ text = "Previous High Score: 123"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MultiplierLabel" type="Label" parent="."]
-visible = false
-offset_left = 8.0
-offset_top = 1152.0
-offset_right = 112.0
-offset_bottom = 1224.0
-theme_override_colors/font_color = Color(0.980392, 0.992157, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 0.14902, 0.454902, 1)
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("2_335u5")
-theme_override_font_sizes/font_size = 32
-text = "1x"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
 material = SubResource("ShaderMaterial_6hob2")
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -120.0
+offset_left = -8.0
+offset_top = -1224.0
+offset_right = -8.0
+offset_bottom = -1104.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxTexture_l1nib")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
-alignment = 1
+size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
-size_flags_stretch_ratio = 2.0
 theme_override_colors/font_color = Color(0.74902, 1, 0.235294, 1)
 theme_override_colors/font_outline_color = Color(0, 0.470588, 0.6, 1)
 theme_override_constants/outline_size = 10
@@ -165,7 +132,7 @@ layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("2_335u5")
 theme_override_font_sizes/font_size = 30
-text = "1x"
+text = "Mult: 1x"
 horizontal_alignment = 1
 vertical_alignment = 1
 

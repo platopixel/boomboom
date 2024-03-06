@@ -7,7 +7,7 @@ var value = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Label.text = str(value)
+	$Label.text = "+" + str(value)
 	var modifier: float = float(value / 15.0)
 	var modified_scale = $Label.scale * modifier / 10
 	if modified_scale >= MAX_SCALE:

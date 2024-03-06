@@ -9,9 +9,7 @@ var color_purple: Vector4 = Vector4(67, 0, 103, 1.0)
 var color_plum: Vector4 = Vector4(148, 33, 106, 1.0)
 
 func _ready():
-	$PointsLabel.hide()
 	$NewHighScoreLabel.hide()
-	$MultiplierLabel.hide()
 	$ResetButton.hide()
 	$PrevHighScoreLabel.hide()
 
@@ -23,7 +21,6 @@ func hide_message():
 	$Message.hide()
 
 func show_game_over():
-	$MultiplierLabel.hide()
 	$ResetButton.hide()
 	show_message("Game Over")
 	# Make a one-shot timer and wait for it to finish.
@@ -36,8 +33,6 @@ func _on_start_button_pressed():
 	$Message.hide()
 	$NewHighScoreLabel.hide()
 	$PrevHighScoreLabel.hide()
-	$PointsLabel.show()
-	$MultiplierLabel.show()
 	$ResetButton.show()
 	emit_signal("start_game")
 
@@ -64,5 +59,5 @@ func update_points(points):
 	$PanelContainer/HBoxContainer/Label.text = "Points: " + str(points)
 
 func update_multiplier(multiplier):
-	$PanelContainer/HBoxContainer/Label2.text = str(multiplier) + "x"
+	$PanelContainer/HBoxContainer/Label2.text = "Mult: " + str(multiplier) + "x"
 
