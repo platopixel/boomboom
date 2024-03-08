@@ -7,23 +7,23 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oi3ll"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0sgnr"]
-radius = 15.9998
-height = 640.0
+radius = 16.0
+height = 644.149
 
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_q3dod")
 
 [node name="Brick" parent="." instance=ExtResource("2_57i8s")]
-position = Vector2(56, 504)
+position = Vector2(122, 504)
 num_hits = 5
 hit_threshold = 10
 
 [node name="Brick2" parent="." instance=ExtResource("2_57i8s")]
-position = Vector2(56, 720)
+position = Vector2(120, 720)
 hit_threshold = 20
 
 [node name="Brick3" parent="." instance=ExtResource("2_57i8s")]
-position = Vector2(56, 944)
+position = Vector2(120, 944)
 num_hits = 20
 hit_threshold = 40
 
@@ -36,11 +36,11 @@ position = Vector2(-40, 8)
 physics_material_override = SubResource("PhysicsMaterial_oi3ll")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(224, 744)
+position = Vector2(296, 744)
 rotation = 3.14159
 shape = SubResource("CapsuleShape2D_0sgnr")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
-position = Vector2(224, 744)
+position = Vector2(296, 744)
 scale = Vector2(0.496765, 0.772947)
 texture = ExtResource("3_hnqrv")
