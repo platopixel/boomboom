@@ -22,7 +22,7 @@ position = Vector2(528, 392)
 hit_threshold = 15
 
 [node name="Brick3" parent="." instance=ExtResource("2_ngvqf")]
-position = Vector2(264, 296)
+position = Vector2(528, 216)
 num_hits = 20
 hit_threshold = 30
 
@@ -36,7 +36,7 @@ rotation = 4.97419
 shape = SubResource("CapsuleShape2D_0sgnr")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
-position = Vector2(312, 488)
+position = Vector2(315.374, 490.738)
 rotation = -1.309
-scale = Vector2(0.451108, 0.743405)
+scale = Vector2(0.442307, 0.732449)
 texture = ExtResource("3_w2cur")

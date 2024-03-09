@@ -1,9 +1,87 @@
-[gd_scene load_steps=4 format=3 uid="uid://q2nd5efn3742"]
+[gd_scene load_steps=15 format=3 uid="uid://q2nd5efn3742"]
 
-[ext_resource type="Texture2D" uid="uid://b250mcr5hksuc" path="res://art/turret.png" id="1_63rgj"]
+[ext_resource type="Texture2D" uid="uid://b7aid6k8gx65k" path="res://art/turret.png" id="1_63rgj"]
 [ext_resource type="Script" path="res://turret.gd" id="1_vadcp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_raagk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1daof"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkq1i"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7p4kb"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1g3q"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmx11"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjdou"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5r2r"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7eit"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osx04"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yoj0d"]
+atlas = ExtResource("1_63rgj")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ayjsy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1daof")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkq1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7p4kb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1g3q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lmx11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjdou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5r2r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7eit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osx04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yoj0d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Turret" type="Node2D"]
 z_index = 1
@@ -11,7 +89,15 @@ script = ExtResource("1_vadcp")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_raagk")
 rotation = -1.5708
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_63rgj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_ayjsy")
+autoplay = "default"
+frame = 8
+frame_progress = 0.203208
