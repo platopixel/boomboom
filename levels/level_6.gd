@@ -1,10 +1,9 @@
 extends Level
 
-@export var next_level_scene: PackedScene = preload("res://levels/level_6.tscn")
+@export var next_level_scene: PackedScene = preload("res://levels/level_random.tscn")
 
 @onready var brick1: RigidBody2D
 @onready var brick2: RigidBody2D
-@onready var brick3: RigidBody2D
 
 func _ready():
 	next_level = next_level_scene
@@ -18,4 +17,4 @@ func level_over():
 
 
 func has_won():
-	return !brick1 && !brick2 && !brick3
+	return !brick1 && !brick2

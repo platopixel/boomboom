@@ -13,7 +13,7 @@ var boundary_animation_scene: PackedScene = preload("res://boundary_animation.ts
 var smoke_animation_scene: PackedScene = preload("res://smoke_animation.tscn")
 # Starting level
 var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
-# var level_1_scene = preload("res://levels/level_4.tscn")
+# var level_1_scene = preload("res://levels/level_6.tscn")
 
 # @onready var piece_velocity_timer: Timer = $CheckPieceVelocityTimer
 
@@ -223,16 +223,10 @@ func _on_piece_exited_screen(piece):
 	show_animated_points(piece)
 	add_points(piece.num_points * score_multiplier)
 	piece.queue_free()
-	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()
 	var num_pieces: int = get_tree().get_nodes_in_group("piece").size()
-	if num_bricks == 0:
-		# if !is_end_level_timer:
-			# start end level timer to account for stuck pieces
-			# start_end_level_timer()
-
-		if num_pieces == 1:
-			$HUD.show_message("CLEAR")
-			current_level.level_finished()
+	if num_pieces == 1:
+		$HUD.show_message("CLEAR")
+		current_level.level_finished()
 
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 100)
@@ -324,8 +318,12 @@ func _on_check_piece_velocity_timer_timeout() -> void:
 	var is_moving: bool = false
 	for piece in pieces:
 		# check if pieces are all stopped so we can end the level
-		if piece.linear_velocity.length() > 0.1:
+		if piece.linear_velocity.length() > 0.7:
 			is_moving = true
+		else:
+			piece.sleeping = true
+			piece.linear_velocity = Vector2(0, 0)
+
 	if !is_moving:
 		start_end_level_timer()
 		$CheckPieceVelocityTimer.stop()

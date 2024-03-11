@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://c42sixyxgcady"]
+
+[ext_resource type="Script" path="res://levels/level_6.gd" id="1_d2680"]
+[ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_0blwj"]
+[ext_resource type="Texture2D" uid="uid://dospgq0r2oqwn" path="res://art/barrier.png" id="3_6ogu1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qj5pt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hu4o"]
+size = Vector2(17.0001, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ouww3"]
+size = Vector2(21.3137, 311.127)
+
+[node name="Level6" type="Node2D"]
+script = ExtResource("1_d2680")
+
+[node name="Brick" parent="." instance=ExtResource("2_0blwj")]
+position = Vector2(132, 576)
+hit_threshold = 20
+
+[node name="Brick2" parent="." instance=ExtResource("2_0blwj")]
+position = Vector2(112, 336)
+hit_threshold = 20
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(607.163, 738.033)
+rotation = 1.5708
+scale = Vector2(0.272218, 0.273654)
+texture = ExtResource("3_6ogu1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(610, 736.5)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_4hu4o")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(400, 624)
+rotation = -0.785398
+scale = Vector2(0.345809, 0.385215)
+texture = ExtResource("3_6ogu1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(400, 624)
+rotation = -0.785398
+shape = SubResource("RectangleShape2D_ouww3")
