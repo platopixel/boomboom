@@ -8,10 +8,6 @@ var points: int = 0
 var max_score: int = 0
 var winning_score: int = 0
 
-@onready var score_label = get_node("RichTextLabel")
-@onready var winning_score_label = get_node("RichTextLabel2")
-
-
 func has_won():
 	print('has_won called on base level class')
 	return false

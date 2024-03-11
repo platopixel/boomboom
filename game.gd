@@ -223,8 +223,9 @@ func _on_piece_exited_screen(piece):
 	show_animated_points(piece)
 	add_points(piece.num_points * score_multiplier)
 	piece.queue_free()
+	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()
 	var num_pieces: int = get_tree().get_nodes_in_group("piece").size()
-	if num_pieces == 1:
+	if num_pieces == 1 && num_bricks == 0:
 		$HUD.show_message("CLEAR")
 		current_level.level_finished()
 
