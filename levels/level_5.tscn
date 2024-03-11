@@ -55,7 +55,6 @@ texture = ExtResource("3_wkcmv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(584, 552)
 rotation = -0.261799
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_li6eo")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
@@ -69,7 +68,6 @@ texture = ExtResource("3_wkcmv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
 position = Vector2(386.845, 782.619)
 rotation = 0.261799
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_hxrx5")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]

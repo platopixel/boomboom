@@ -15,6 +15,8 @@ var smoke_animation_scene: PackedScene = preload("res://smoke_animation.tscn")
 var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
 # var level_1_scene = preload("res://levels/level_4.tscn")
 
+# @onready var piece_velocity_timer: Timer = $CheckPieceVelocityTimer
+
 var is_playing: bool = false
 var is_slow_mo: bool = false
 var is_missile_fired: bool = false # TODO: missile class should probably maintain its own state
@@ -180,6 +182,10 @@ func _on_brick_explode(brick, explosion):
 	show_smoke_animation(brick.position)
 	start_slow_motion(brick.num_hits)
 	create_pieces(brick, explosion)
+	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()
+	# start end level check timer
+	if num_bricks == 1:
+		$CheckPieceVelocityTimer.start()
 
 
 func add_points(num_points):
@@ -198,7 +204,7 @@ func _on_brick_hit_by_piece(brick):
 
 
 func start_end_level_timer():
-	var delay = 4.0  # Delay in seconds
+	var delay = 1.0  # Delay in seconds
 	is_end_level_timer = true
 	# var timer: SceneTreeTimer = get_tree().create_timer(delay)
 	await get_tree().create_timer(delay).timeout
@@ -220,9 +226,9 @@ func _on_piece_exited_screen(piece):
 	var num_bricks: int = get_tree().get_nodes_in_group("brick").size()
 	var num_pieces: int = get_tree().get_nodes_in_group("piece").size()
 	if num_bricks == 0:
-		if !is_end_level_timer:
+		# if !is_end_level_timer:
 			# start end level timer to account for stuck pieces
-			start_end_level_timer()
+			# start_end_level_timer()
 
 		if num_pieces == 1:
 			$HUD.show_message("CLEAR")
@@ -311,3 +317,15 @@ func _on_hud_start_game():
 func _on_bottom_barrier_body_entered(body):
 	if body.is_in_group("piece"):
 		_on_piece_exited_screen(body)
+
+
+func _on_check_piece_velocity_timer_timeout() -> void:
+	var pieces: Array[Node] = get_tree().get_nodes_in_group("piece")
+	var is_moving: bool = false
+	for piece in pieces:
+		# check if pieces are all stopped so we can end the level
+		if piece.linear_velocity.length() > 0.1:
+			is_moving = true
+	if !is_moving:
+		start_end_level_timer()
+		$CheckPieceVelocityTimer.stop()
