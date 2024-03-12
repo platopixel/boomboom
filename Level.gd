@@ -23,18 +23,18 @@ func _on_hit_by_piece(brick):
 
 
 func level_over():
-	print('level_over called in base Level class')
+	# print('level_over called in base Level class')
 	pass
 
 
 func level_lost():
-	print('lost_level called in base Level class')
+	# print('lost_level called in base Level class')
 	pass
 
 func level_finished():
-	print('level_finished called in base level class')
+	# print('level_finished called in base level class')
 	pass
 
 func add_points(num_points):
-	print('add_points called in base level class')
+	# print('add_points called in base level class')
 	pass

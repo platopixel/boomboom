@@ -19,4 +19,5 @@ func level_over():
 
 
 func has_won():
+	print(!brick1 && !brick2 && !brick3)
 	return !brick1 && !brick2 && !brick3
