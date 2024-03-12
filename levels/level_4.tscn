@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://byjwbbpoamiof"]
+[gd_scene load_steps=7 format=3 uid="uid://byjwbbpoamiof"]
 
 [ext_resource type="Script" path="res://levels/level_4.gd" id="1_vp4h3"]
 [ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_ngvqf"]
@@ -7,35 +7,61 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oi3ll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38y5f"]
-size = Vector2(621.433, 26)
+size = Vector2(592, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_og0ed"]
+size = Vector2(592, 16)
 
 [node name="Level4" type="Node2D"]
 script = ExtResource("1_vp4h3")
 
 [node name="Brick" parent="." instance=ExtResource("2_ngvqf")]
-position = Vector2(528, 704)
-hit_threshold = 10
+position = Vector2(360, 96)
+num_hits = 100
+hit_threshold = 100
 
 [node name="Brick2" parent="." instance=ExtResource("2_ngvqf")]
-position = Vector2(528, 392)
-hit_threshold = 15
+position = Vector2(536, 640)
+num_hits = 25
+hit_threshold = 50
 
 [node name="Brick3" parent="." instance=ExtResource("2_ngvqf")]
-position = Vector2(528, 216)
-num_hits = 20
-hit_threshold = 30
+position = Vector2(536, 352)
+num_hits = 25
+hit_threshold = 50
+
+[node name="Brick4" parent="." instance=ExtResource("2_ngvqf")]
+position = Vector2(136, 352)
+num_hits = 25
+hit_threshold = 50
+
+[node name="Brick5" parent="." instance=ExtResource("2_ngvqf")]
+position = Vector2(156, 640)
+num_hits = 25
+hit_threshold = 50
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(-40, 8)
 physics_material_override = SubResource("PhysicsMaterial_oi3ll")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
-position = Vector2(325.017, 471.201)
-rotation = -1.309
-scale = Vector2(0.442307, 0.7469)
+position = Vector2(384, 520)
+scale = Vector2(0.235294, 0.714976)
 texture = ExtResource("3_w2cur")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(323.507, 472.94)
-rotation = 0.261799
+position = Vector2(383.999, 520)
+rotation = 1.57079
 shape = SubResource("RectangleShape2D_38y5f")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(400, 528)
+scale = Vector2(0.235294, 0.714976)
+texture = ExtResource("3_w2cur")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(399.999, 528)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_og0ed")
