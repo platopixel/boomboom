@@ -94,6 +94,7 @@ func check_high_score():
 
 
 func level_over():
+	is_playing = false
 	var missiles: Array[Node] = get_tree().get_nodes_in_group("missile")
 	var pieces: Array[Node] = get_tree().get_nodes_in_group("piece")
 	for missile in missiles:
@@ -115,6 +116,7 @@ func level_over():
 		current_level = current_level.next_level.instantiate()
 		current_level.connect("hit_by_piece", _on_brick_hit_by_piece)
 		add_child(current_level)
+		is_playing = true
 	else:
 		game_over()
 
