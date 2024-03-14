@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-@export var impulse_strength = 1500
+@export var impulse_strength: int = 1500
 
 signal detonate_missile
 

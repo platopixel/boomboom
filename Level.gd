@@ -3,10 +3,14 @@ class_name Level
 
 signal hit_by_piece
 
+var base_level_scene: PackedScene = preload("res://levels/base_level.tscn")
+
 var next_level
 var points: int = 0
 var max_score: int = 0
 var winning_score: int = 0
+var base_level: Node2D
+
 
 func has_won():
 	print('has_won called on base level class')
@@ -15,7 +19,8 @@ func has_won():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	base_level = base_level_scene.instantiate()
+	add_child(base_level)
 
 
 func _on_hit_by_piece(brick):
@@ -23,8 +28,9 @@ func _on_hit_by_piece(brick):
 
 
 func level_over():
-	# print('level_over called in base Level class')
-	pass
+	var next_level_button: Button  = base_level.get_node("ButtonNextLevel")
+	next_level_button.show()
+	await next_level_button.pressed
 
 
 func level_lost():

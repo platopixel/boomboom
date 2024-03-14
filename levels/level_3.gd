@@ -6,6 +6,7 @@ var brick1: RigidBody2D
 var brick2: RigidBody2D
 
 func _ready():
+	super()
 	next_level = next_level_scene
 	var bricks: Array[Node] = get_tree().get_nodes_in_group("brick")
 	for brick in bricks:
@@ -13,7 +14,8 @@ func _ready():
 
 
 func level_over():
-	queue_free()
+	await super()
+	call_deferred("queue_free")
 
 
 func has_won():

@@ -10,6 +10,7 @@ var brick2: RigidBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	super()
 	max_score = MAX_SCORE
 	winning_score = WINNING_SCORE
 	next_level = next_level_scene
@@ -18,7 +19,6 @@ func _ready():
 	brick1.connect("hit_by_piece", _on_hit_by_piece)
 	brick2.connect("hit_by_piece", _on_hit_by_piece)
 	$LevelScoreLabel.hide()
-	$RestartLevelButton.hide()
 
 
 func add_points(num_points):
@@ -46,8 +46,7 @@ func level_finished():
 
 func level_over():
 	show_score()
-	# $RestartLevelButton.show()
-	await get_tree().create_timer(2.0).timeout
+	await super()
 	call_deferred("queue_free")
 
 
@@ -59,6 +58,3 @@ func level_lost():
 	show_score()
 	await get_tree().create_timer(1.0).timeout
 
-
-func _on_restart_level_button_pressed() -> void:
-	pass # Replace with function body.

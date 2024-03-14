@@ -1,33 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyt6l511ws3to"]
+[gd_scene load_steps=2 format=3 uid="uid://dyt6l511ws3to"]
 
-[ext_resource type="Script" path="res://Level.gd" id="1_3pcuh"]
-[ext_resource type="FontFile" uid="uid://c6qt3kp3tol2" path="res://fonts/SuboleyaRegular-qZeV1.ttf" id="2_ed6ve"]
+[ext_resource type="FontFile" uid="uid://btv6dv8vjahob" path="res://fonts/RetrcadeRegular-x30Mr.ttf" id="2_g1ft0"]
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_3pcuh")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-anchors_preset = -1
-anchor_right = 0.5
-offset_left = 8.0
-offset_right = 328.0
-offset_bottom = 64.0
-grow_horizontal = 2
+[node name="ButtonNextLevel" type="Button" parent="."]
+visible = false
+offset_left = 200.0
+offset_top = 880.0
+offset_right = 520.0
+offset_bottom = 992.0
+size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_fonts/normal_font = ExtResource("2_ed6ve")
-theme_override_font_sizes/normal_font_size = 45
-bbcode_enabled = true
-text = "Score: 10"
-
-[node name="RichTextLabel2" type="RichTextLabel" parent="."]
-anchors_preset = -1
-anchor_right = 0.5
-offset_left = 368.0
-offset_right = 720.0
-offset_bottom = 64.0
-grow_horizontal = 2
-size_flags_vertical = 4
-theme_override_fonts/normal_font = ExtResource("2_ed6ve")
-theme_override_font_sizes/normal_font_size = 45
-bbcode_enabled = true
-text = "Pass: 10"
+theme_override_fonts/font = ExtResource("2_g1ft0")
+theme_override_font_sizes/font_size = 23
+text = "Next Level"

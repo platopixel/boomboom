@@ -75,13 +75,3 @@ theme_override_constants/outline_size = 5
 theme_override_fonts/normal_font = SubResource("SystemFont_a2yg4")
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-
-[node name="RestartLevelButton" type="Button" parent="."]
-offset_left = 256.0
-offset_top = 736.0
-offset_right = 520.0
-offset_bottom = 840.0
-theme_override_font_sizes/font_size = 39
-text = "Retry"
-
-[connection signal="pressed" from="RestartLevelButton" to="." method="_on_restart_level_button_pressed"]
