@@ -21,10 +21,6 @@ func _ready():
 	$LevelScoreLabel.hide()
 
 
-func add_points(num_points):
-	points += maxi(num_points, 0)
-
-
 func show_score():
 	# Define a format string with placeholder '%s'
 	var format_string: String = "[center]%s[/center]\n[right]Your score: [color=%s]" + str(points) + "[/color]\nWinning Score: " + str(winning_score) + "[/right]"
@@ -41,7 +37,8 @@ func show_score():
 
 # Called when the last brick explodes
 func level_finished():
-	show_score()
+	# show_score()
+	pass
 
 
 func level_over():

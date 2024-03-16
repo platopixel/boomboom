@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyt6l511ws3to"]
+[gd_scene load_steps=3 format=3 uid="uid://dyt6l511ws3to"]
 
+[ext_resource type="FontFile" uid="uid://c6qt3kp3tol2" path="res://fonts/SuboleyaRegular-qZeV1.ttf" id="2_46hq8"]
 [ext_resource type="FontFile" uid="uid://btv6dv8vjahob" path="res://fonts/RetrcadeRegular-x30Mr.ttf" id="2_g1ft0"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Level" type="CanvasLayer"]
 
 [node name="ButtonNextLevel" type="Button" parent="."]
 visible = false
@@ -15,3 +16,85 @@ size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("2_g1ft0")
 theme_override_font_sizes/font_size = 23
 text = "Next Level"
+
+[node name="PanelHighScore" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -64.0
+offset_right = 88.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelHighScore"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.5
+offset_top = -25.0
+offset_right = 45.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "High Score: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "134"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "Your Score: "
+
+[node name="Label2" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "133"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "Max Score: "
+
+[node name="Label2" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "160"

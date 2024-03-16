@@ -9,7 +9,7 @@ var next_level
 var points: int = 0
 var max_score: int = 0
 var winning_score: int = 0
-var base_level: Node2D
+var base_level: CanvasLayer
 
 
 func has_won():
@@ -28,10 +28,21 @@ func _on_hit_by_piece(brick):
 
 
 func level_over():
-	var next_level_button: Button  = base_level.get_node("ButtonNextLevel")
+	var next_level_button: Button = base_level.get_node("ButtonNextLevel")
+	var high_score_panel: Panel = base_level.get_node("PanelHighScore")
 	next_level_button.show()
+	high_score_panel.show()
+	show_scores()
 	await next_level_button.pressed
 
+
+func show_scores():
+	var high_score_label: Label = base_level.get_node("PanelHighScore/VBoxContainer/HBoxContainer/Label2")
+	var current_score_label: Label = base_level.get_node("PanelHighScore/VBoxContainer/HBoxContainer2/Label2")
+	var max_score_label: Label = base_level.get_node("PanelHighScore/VBoxContainer/HBoxContainer3/Label2")
+	high_score_label.text = "undefined"
+	current_score_label.text = str(points)
+	max_score_label.text = str(max_score)
 
 func level_lost():
 	# print('lost_level called in base Level class')
@@ -42,5 +53,5 @@ func level_finished():
 	pass
 
 func add_points(num_points):
-	# print('add_points called in base level class')
+	points += maxi(num_points, 0)
 	pass

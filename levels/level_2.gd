@@ -12,6 +12,8 @@ var brick3: RigidBody2D
 
 func _ready():
 	super()
+	max_score = MAX_SCORE
+	winning_score = WINNING_SCORE
 	next_level = next_level_scene
 	var bricks: Array[Node] = get_tree().get_nodes_in_group("brick")
 	for brick in bricks:
