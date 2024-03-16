@@ -118,6 +118,7 @@ func level_over():
 		add_child(current_level)
 		is_playing = true
 	else:
+		await prev_level.level_over()
 		game_over()
 
 
