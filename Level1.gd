@@ -42,7 +42,7 @@ func level_finished():
 
 
 func level_over():
-	show_score()
+	# show_score()
 	await super()
 	call_deferred("queue_free")
 
@@ -52,6 +52,6 @@ func has_won():
 
 
 func level_lost():
-	show_score()
+	# show_score()
 	await get_tree().create_timer(1.0).timeout
 

@@ -20,6 +20,10 @@ func has_won():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	base_level = base_level_scene.instantiate()
+	var next_level_button: Button = base_level.get_node("ButtonNextLevel")
+	var high_score_panel: Panel = base_level.get_node("PanelHighScore")
+	next_level_button.hide()
+	high_score_panel.hide()
 	add_child(base_level)
 
 
@@ -40,9 +44,10 @@ func show_scores():
 	var high_score_label: Label = base_level.get_node("PanelHighScore/VBoxContainer/HBoxContainer/Label2")
 	var current_score_label: Label = base_level.get_node("PanelHighScore/VBoxContainer/HBoxContainer2/Label2")
 	var max_score_label: Label = base_level.get_node("PanelHighScore/VBoxContainer/HBoxContainer3/Label2")
-	high_score_label.text = "undefined"
+	high_score_label.text = "~"
 	current_score_label.text = str(points)
 	max_score_label.text = str(max_score)
+
 
 func level_lost():
 	# print('lost_level called in base Level class')

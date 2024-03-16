@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dospgq0r2oqwn" path="res://art/barrier.png" id="3_6ogu1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qj5pt"]
+rough = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hu4o"]
 size = Vector2(17.0001, 220)

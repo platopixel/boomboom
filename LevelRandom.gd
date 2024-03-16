@@ -18,6 +18,8 @@ func generate_bricks(num_bricks):
 	for i in range(num_bricks):
 		var instance: RigidBody2D = brick_scene.instantiate()
 		instance.connect("hit_by_piece", _on_hit_by_piece)
+		max_score += instance.hit_threshold
+
 		var random_position: Vector2 = Vector2(
 			randi_range((X_BUFFER + instance.get_brick_width()), get_viewport_rect().size.x - (X_BUFFER + instance.get_brick_width())),
 			randi_range(Y_TOP_BUFFER, get_viewport_rect().size.y - Y_BOTTOM_BUFFER)
@@ -30,6 +32,8 @@ func generate_bricks(num_bricks):
 			)
 		instance.global_position = random_position
 		add_child(instance)
+
+	max_score *= num_bricks
 
 
 func is_overlapping_with_bricks(new_position):

@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyt6l511ws3to"]
+[gd_scene load_steps=4 format=3 uid="uid://dyt6l511ws3to"]
 
 [ext_resource type="FontFile" uid="uid://c6qt3kp3tol2" path="res://fonts/SuboleyaRegular-qZeV1.ttf" id="2_46hq8"]
 [ext_resource type="FontFile" uid="uid://btv6dv8vjahob" path="res://fonts/RetrcadeRegular-x30Mr.ttf" id="2_g1ft0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afi52"]
+bg_color = Color(0.0627451, 0.0705882, 0.109804, 0.960784)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="Level" type="CanvasLayer"]
 
@@ -18,20 +25,18 @@ theme_override_font_sizes/font_size = 23
 text = "Next Level"
 
 [node name="PanelHighScore" type="Panel" parent="."]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -104.0
-offset_top = -64.0
-offset_right = 88.0
-offset_bottom = 64.0
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_afi52")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelHighScore"]
 layout_mode = 1
@@ -46,6 +51,22 @@ offset_right = 45.5
 offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "Your Score: "
+
+[node name="Label2" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_46hq8")
+theme_override_font_sizes/font_size = 35
+text = "133"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
 layout_mode = 2
@@ -67,21 +88,6 @@ theme_override_fonts/font = ExtResource("2_46hq8")
 theme_override_font_sizes/font_size = 35
 text = "134"
 horizontal_alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_46hq8")
-theme_override_font_sizes/font_size = 35
-text = "Your Score: "
-
-[node name="Label2" type="Label" parent="PanelHighScore/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_46hq8")
-theme_override_font_sizes/font_size = 35
-text = "133"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelHighScore/VBoxContainer"]
 layout_mode = 2

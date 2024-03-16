@@ -11,6 +11,9 @@ func _ready():
 	var bricks: Array[Node] = get_tree().get_nodes_in_group("brick")
 	for brick in bricks:
 		brick.connect("hit_by_piece", _on_hit_by_piece)
+		max_score += brick.hit_threshold
+
+	max_score *= bricks.size()
 
 
 func level_over():
@@ -20,3 +23,4 @@ func level_over():
 
 func has_won():
 	return !brick1 && !brick2
+
