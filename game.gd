@@ -13,7 +13,7 @@ var boundary_animation_scene: PackedScene = preload("res://boundary_animation.ts
 var smoke_animation_scene: PackedScene = preload("res://smoke_animation.tscn")
 # Starting level
 var level_1_scene: PackedScene = preload("res://levels/level_1.tscn")
-# var level_1_scene = preload("res://levels/level_4.tscn")
+# var level_1_scene = preload("res://levels/level_6.tscn")
 
 # @onready var piece_velocity_timer: Timer = $CheckPieceVelocityTimer
 
@@ -142,7 +142,7 @@ func reset_game_state():
 	add_points(-(points))
 	points = 0
 	starting_points = 0
-	if current_level:
+	if current_level != null:
 		current_level.level_over()
 	# clear old pieces and bricks
 	var bricks = get_tree().get_nodes_in_group("brick")
@@ -193,7 +193,7 @@ func _on_brick_explode(brick, explosion):
 
 func add_points(num_points):
 	points += num_points
-	if current_level:
+	if current_level != null:
 		current_level.add_points(num_points)
 	$HUD.update_points(points)
 
@@ -234,7 +234,7 @@ func _on_piece_exited_screen(piece):
 		if !is_end_level_timer:
 			# ensure the level ends
 			$CheckPieceVelocityTimer.start()
-
+	# Show piece exiting screen animation
 	var instance = boundary_animation_scene.instantiate()
 	instance.position = Vector2(piece.position.x, get_viewport_rect().size.y - 100)
 	add_child(instance)
