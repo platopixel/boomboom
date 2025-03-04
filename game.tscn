@@ -399,6 +399,7 @@ position = Vector2(360, 640)
 script = ExtResource("6_g4nsh")
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource("TileSet_774n7")
 rendering_quadrant_size = 32
 format = 2

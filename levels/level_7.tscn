@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://n1auu64pco34"]
+
+[ext_resource type="Script" path="res://Level7.gd" id="1_68fht"]
+[ext_resource type="PackedScene" uid="uid://cq1tglkkatsqo" path="res://brick.tscn" id="2_vm63u"]
+[ext_resource type="Texture2D" uid="uid://dospgq0r2oqwn" path="res://art/barrier.png" id="3_habci"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qj5pt"]
+rough = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hu4o"]
+size = Vector2(24, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ouww3"]
+size = Vector2(17.9938, 224)
+
+[node name="Level7" type="Node2D"]
+script = ExtResource("1_68fht")
+
+[node name="Brick" parent="." instance=ExtResource("2_vm63u")]
+position = Vector2(496, 776)
+hit_threshold = 20
+
+[node name="Brick2" parent="." instance=ExtResource("2_vm63u")]
+position = Vector2(120, 275)
+hit_threshold = 20
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(400, 275)
+rotation = 1.5708
+scale = Vector2(0.272218, 0.273654)
+texture = ExtResource("3_habci")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(400, 280)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_4hu4o")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-176, -192)
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(576.379, 520)
+rotation = 1.5708
+scale = Vector2(0.345809, 0.270829)
+texture = ExtResource("3_habci")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(576, 520.997)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_ouww3")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_qj5pt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+position = Vector2(440, 472)
+rotation = 1.5708
+scale = Vector2(0.272218, 0.273654)
+texture = ExtResource("3_habci")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(437, 468)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_4hu4o")
